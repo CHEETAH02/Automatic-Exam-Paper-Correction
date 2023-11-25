@@ -1,0 +1,17 @@
+<!-- feature to be added using javascript:
+entered password and re-entered password should match, else give alert -->
+
+<html>
+    <head>
+        <title>Student Registration</title>
+    </head>
+    <body>
+        <form action="{{ url_for('student_registration') }}" method="post">
+            ID: <input type="text" name="student_id"><br>
+            Name: <input type="text" name="student_name"><br>
+            Password: <input type="password" name="student_pwd"><br>
+            Re-enter Password: <input type="password"><br>
+            <input type="submit">
+        </form>
+    </body>
+</html>

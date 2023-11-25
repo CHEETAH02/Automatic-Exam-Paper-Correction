@@ -1,0 +1,10 @@
+<html>
+    <head>
+        <title>Student Already Existing!</title>
+    </head>
+    <body>
+        <h2>No student registered with given credentials. You have either given wrong credentials or haven't registered. Register now?</h2>
+        <button><a href="{{ url_for('student_registration_page') }}">Yes</a></button>
+        <button><a href="{{ url_for('student_login_page') }}">No</a></button>
+    </body>
+</html>

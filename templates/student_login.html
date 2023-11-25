@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>Student Login</title>
+    </head>
+    <body>
+        <form action="{{ url_for('student_login_authentication') }}" method="post">
+            Student ID: <input type="text" placeholder="enter your ID" name="student_id"><br>
+            Password: <input type="password" placeholder="enter password" name="student_pwd"><br>
+            <input type="submit">
+        </form>
+        <button><a href="{{ url_for('student_registration') }}">Not Registered Yet?</a></button>
+    </body>
+</html>
