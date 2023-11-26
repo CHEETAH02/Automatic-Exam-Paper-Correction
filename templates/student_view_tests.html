@@ -1,0 +1,10 @@
+<html>
+    <head>
+        <title>View Tests</title>
+    </head>
+    <body>
+        {% for i in range(0, len) %}
+        <button><a href="{{ url_for('test.attempt_test', paperID=data[i][0]) }}">{{ data[i][1] }}</a></button>
+        {% endfor %}
+    </body>
+</html>
