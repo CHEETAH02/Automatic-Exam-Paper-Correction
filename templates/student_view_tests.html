@@ -3,8 +3,16 @@
         <title>View Tests</title>
     </head>
     <body>
+        {% if len != 0 %}
+
         {% for i in range(0, len) %}
         <button><a href="{{ url_for('test.attempt_test', paperID=data[i][0]) }}">{{ data[i][1] }}</a></button>
         {% endfor %}
+
+        {% else %}
+
+        <h3>No tests right now</h3>
+
+        {% endif %}
     </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, request, jsonify
+from flask import Blueprint, render_template, session, redirect, url_for, request
 from functools import wraps
 from app import mongo
 
@@ -10,7 +10,7 @@ def logged_in(f):
     def decorated_func(*args, **kwargs):
         if session.get("logged_in"):
             return f(*args, **kwargs)
-        return redirect(url_for("student.student_login"))
+        return redirect(url_for("student_login"))
     return decorated_func
 
 @student.route("/homePage")
@@ -21,15 +21,29 @@ def student_home_page():
 @student.route("/viewTests", methods=['GET'])
 @logged_in
 def student_view_tests():
-    if request.method == 'GET':
-
-        papers = mongo.db.question_papers.find()
-        if papers:
-            data = []
-            for paper in papers:
+    studentID = session['studentID']
+    papers = mongo.db.question_papers.find()
+    answerPapers = mongo.db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
+    paperIDList = [paper['questionPaperID'] for paper in answerPapers]
+    data = []
+    
+    if papers:
+        for paper in papers:
+            if paper['questionPaperID'] not in paperIDList:
                 paperID, paperName = paper['questionPaperID'], paper['questionPaperName']
                 data.append((paperID, paperName))
-            return render_template('student_view_tests.html', len=len(data), data=data)
+    return render_template('student_view_tests.html', len=len(data), data=data)
 
-
-
+@student.route("/viewScores", methods=['GET'])
+@logged_in
+def student_view_scores():
+    data = []
+    studentID = session['studentID']
+    papers = mongo.db.scores.find({"studentID": studentID})
+    for paper in papers:
+        questionPaperID = paper['questionPaperID']
+        score = paper['total']
+        questionPaper = mongo.db.question_papers.find_one({"questionPaperID": questionPaperID})
+        questionPaperName = questionPaper['questionPaperName']
+        data.append([questionPaperName, score])
+    return render_template('student_view_scores.html', data=data, len=len(data))

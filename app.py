@@ -19,13 +19,13 @@ def student_register():
         studentName = data['student_name']
         studentPassword = data['student_pwd']
 
-        if mongo.db.students.find_one({"id": studentID}):
+        if mongo.db.students.find_one({"studentID": studentID}):
             return render_template("student_exists.html")
 
         dict = {
-            "id": studentID,
-            "name": studentName,
-            "password": studentPassword
+            "studentID": studentID,
+            "studentName": studentName,
+            "studentPassword": studentPassword
         }
 
         mongo.db.students.insert_one(dict)
@@ -41,9 +41,9 @@ def student_login():
         studentID = data['student_id']
         studentPassword = data['student_pwd']
 
-        if mongo.db.students.find_one({"id": studentID, "password": studentPassword}):
+        if mongo.db.students.find_one({"studentID": studentID, "studentPassword": studentPassword}):
             session['logged_in'] = True
-            session['student'] = studentID
+            session['studentID'] = studentID
             return redirect(url_for('student.student_home_page'))
         return render_template('student_not_exists.html')
     
@@ -57,9 +57,9 @@ def teacher_login():
         teacherID = data['teacher_id']
         teacherPassword = data['teacher_pwd']
 
-        if mongo.db.teachers.find_one({"id": teacherID, "password": teacherPassword}):
+        if mongo.db.teachers.find_one({"teacherID": teacherID, "teacherPassword": teacherPassword}):
             session['logged_in'] = True
-            session['teacher'] = teacherID
+            session['teacherID'] = teacherID
             return redirect(url_for('teacher.teacher_home_page'))
         return render_template('teacher_not_exists.html')
     
