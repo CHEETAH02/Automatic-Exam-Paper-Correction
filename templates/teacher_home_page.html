@@ -1,10 +1,9 @@
 <html>
     <head>
-        <title>Student Home Page</title>
+        <title>Teacher Home Page</title>
     </head>
     <body>
-        <button>Browse Tests</button>
-        <button>Attempt Test</button>
-        <button>Check scores</button>
+        <button><a href="{{ url_for('teacher.add_test') }}">Add Test</a></button>
+        <button><a href="{{ url_for('teacher.view_question_papers') }}">Evaluate Papers</a></button>
     </body>
 </html>

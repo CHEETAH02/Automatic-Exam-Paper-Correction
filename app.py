@@ -42,7 +42,7 @@ def student_login():
         studentPassword = data['student_pwd']
 
         if mongo.db.students.find_one({"studentID": studentID, "studentPassword": studentPassword}):
-            session['logged_in'] = True
+            session['student_logged_in'] = True
             session['studentID'] = studentID
             return redirect(url_for('student.student_home_page'))
         return render_template('student_not_exists.html')
@@ -58,7 +58,7 @@ def teacher_login():
         teacherPassword = data['teacher_pwd']
 
         if mongo.db.teachers.find_one({"teacherID": teacherID, "teacherPassword": teacherPassword}):
-            session['logged_in'] = True
+            session['teacher_logged_in'] = True
             session['teacherID'] = teacherID
             return redirect(url_for('teacher.teacher_home_page'))
         return render_template('teacher_not_exists.html')

@@ -4,8 +4,8 @@
     </head>
     <body>
         <form action="{{ url_for('teacher_login') }}" method="post">
-            Teacher ID: <input type="text" placeholder="enter your ID"><br>
-            Password: <input type="password" placeholder="enter password"><br>
+            Teacher ID: <input type="text" name="teacher_id" placeholder="enter your ID"><br>
+            Password: <input type="password" name="teacher_pwd" placeholder="enter password"><br>
             <input type="submit">
         </form>
     </body>

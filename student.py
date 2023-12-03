@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session, redirect, url_for, request
+from flask import Blueprint, render_template, session, redirect, url_for
 from functools import wraps
 from app import mongo
 
@@ -8,7 +8,7 @@ student = Blueprint('student', __name__)
 def logged_in(f):
     @wraps(f)
     def decorated_func(*args, **kwargs):
-        if session.get("logged_in"):
+        if session.get("student_logged_in"):
             return f(*args, **kwargs)
         return redirect(url_for("student_login"))
     return decorated_func
@@ -18,10 +18,10 @@ def logged_in(f):
 def student_home_page():
     return render_template('student_home_page.html')
 
-@student.route("/viewTests", methods=['GET'])
+@student.route("/viewTests")
 @logged_in
 def student_view_tests():
-    studentID = session['studentID']
+    studentID = session.get('studentID')
     papers = mongo.db.question_papers.find()
     answerPapers = mongo.db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
     paperIDList = [paper['questionPaperID'] for paper in answerPapers]
@@ -34,11 +34,11 @@ def student_view_tests():
                 data.append((paperID, paperName))
     return render_template('student_view_tests.html', len=len(data), data=data)
 
-@student.route("/viewScores", methods=['GET'])
+@student.route("/viewScores")
 @logged_in
 def student_view_scores():
     data = []
-    studentID = session['studentID']
+    studentID = session.get('studentID')
     papers = mongo.db.scores.find({"studentID": studentID})
     for paper in papers:
         questionPaperID = paper['questionPaperID']

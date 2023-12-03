@@ -3,7 +3,7 @@
         <title>Attempt Test: {{ paperName }}</title>
     </head>
     <body>
-        <form action="{{ url_for('test.attempt_test', paperID=paperID) }}" method="post">
+        <form action="{{ url_for('test.attempt_test', paperID=paperID) }}" method="post" enctype="multipart/form-data">
             <div>
                 Attempt Test: {{ paperName }}
                 <h5>Question 1: MCQs</h5>

@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>View Papers</title>
+    </head>
+    <body>
+
+        {% if nc_len != 0 %}
+
+        <h3>Not Corrected</h3>
+        {% for i in range(nc_len) %}
+        <div>
+            <a href="{{ url_for('teacher.teacher_view_test', paperID=nc_data[i][0]) }}">{{ nc_data[i][1] }}</a>: {{ nc_data[i][2] }}  <button><a href="{{ url_for('test.evaluate_test', paperID=nc_data[i][0]) }}">Correct Paper</a></button><br>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+        {% if c_len != 0 %}
+
+        <h3>Not Corrected</h3>
+        {% for i in range(c_len) %}
+        <div>
+            {{ c_data[i][1] }}: {{ c_data[i][2] }}<br>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+    </body>
+</html>
