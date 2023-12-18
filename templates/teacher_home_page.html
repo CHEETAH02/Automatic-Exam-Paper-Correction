@@ -1,9 +1,12 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="./teacher_home_page.css">
         <title>Teacher Home Page</title>
     </head>
     <body>
-        <button><a href="{{ url_for('teacher.add_test') }}">Add Test</a></button>
-        <button><a href="{{ url_for('teacher.view_question_papers') }}">Evaluate Papers</a></button>
+        <div class="container">
+        <button class="btn1"><a href="{{ url_for('teacher.add_test') }}">Add Test</a></button><br>
+        <button class="btn"><a href="{{ url_for('teacher.view_question_papers') }}">Evaluate Papers</a></button>
+        </div>
     </body>
 </html>

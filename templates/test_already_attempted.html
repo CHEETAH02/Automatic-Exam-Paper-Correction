@@ -1,11 +1,12 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="./test_already_attempted.css">
         <title>Test Already Attempted!</title>
     </head>
     <body>
-        <h3>
-            You have already attempted this test once!
-            <button><a href="{{ url_for('student.student_home_page') }}">Go to Home Page</a></button>
-        </h3>
+        <div class="container1">
+        <h3 class="heading1"> You have already attempted this test once!</h3>
+        <button class="btn1"><a href="{{ url_for('student.student_home_page') }}">Go to Home Page</a></button>
+        </div>
     </body>
 </html>

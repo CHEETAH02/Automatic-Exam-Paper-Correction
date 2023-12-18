@@ -1,9 +1,12 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="./test_submit_success.css">
         <title>Answers Submitted Successfully</title>
     </head>
     <body>
-        <h3>Answers submitted successfully! You can now go back to home page</h3>
-        <button><a href="{{ url_for('student.student_home_page') }}">Go to Home Page</a></button>
+        <div class="container">
+        <h3 class="heading">Answers submitted successfully! You can now go back to home page</h3>
+        <button class="btn"><a href="{{ url_for('student.student_home_page') }}">Go to Home Page</a></button>
+    </div>
     </body>
 </html>
