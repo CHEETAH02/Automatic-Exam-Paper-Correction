@@ -17,10 +17,10 @@
 
         {% if c_len != 0 %}
 
-        <h3>Not Corrected</h3>
+        <h3>Corrected</h3>
         {% for i in range(c_len) %}
         <div>
-            {{ c_data[i][1] }}: {{ c_data[i][2] }}<br>
+            <a href="{{ url_for('teacher.teacher_view_test', paperID=c_data[i][0]) }}">{{ c_data[i][1] }}</a>: {{ c_data[i][2] }}<br>
         </div>
         {% endfor %}
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from functools import wraps
-from app import mongo
+from app import db
 
 teacher = Blueprint('teacher', __name__)
 
@@ -108,7 +108,7 @@ def add_test():
             "answers": answers,
             "marks": marks
         }
-        mongo.db.question_papers.insert_one(question_paper)
+        db.question_papers.insert_one(question_paper)
         return render_template('test_added.html')
     
     return render_template('teacher_add_test.html')
@@ -116,20 +116,20 @@ def add_test():
 @teacher.route("/viewPapers")
 def view_question_papers():
     teacherID = session.get("teacherID")
-    question_papers = mongo.db.question_papers.find({"teacherID": teacherID})
-    corrected_papers = mongo.db.scores.find({}, {"questionPaperID": True, "_id": False})
+    question_papers = db.question_papers.find({"teacherID": teacherID})
+    corrected_papers = db.scores.find({}, {"questionPaperID": True, "_id": False})
     corrected_papers = [paper['questionPaperID'] for paper in corrected_papers]
     c_data = []
     nc_data = []
 
     for paper in question_papers:
         if paper['questionPaperID'] not in corrected_papers:
-            attended = mongo.db.answer_papers.count_documents({"questionPaperID": paper['questionPaperID']})
+            attended = db.answer_papers.count_documents({"questionPaperID": paper['questionPaperID']})
             paperID = paper['questionPaperID']
             paperName = paper['questionPaperName']
             nc_data.append((paperID, paperName, attended))
         else:
-            attended = mongo.db.answer_papers.count_documents({"questionPaperID": paper['questionPaperID']})
+            attended = db.answer_papers.count_documents({"questionPaperID": paper['questionPaperID']})
             paperID = paper['questionPaperID']
             paperName = paper['questionPaperName']
             c_data.append((paperID, paperName, attended))
@@ -138,7 +138,7 @@ def view_question_papers():
 
 @teacher.route("/viewPapers/<paperID>")
 def teacher_view_test(paperID):
-    questionPaper = mongo.db.question_papers.find_one({"questionPaperID": paperID})
+    questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
     paperName = questionPaper['questionPaperName']
     questions = questionPaper['questions']
     answers = questionPaper['answers']

@@ -1,8 +1,9 @@
 from flask import Blueprint, session, redirect, url_for, render_template, request
 from functools import wraps
 import numpy as np
-from app import mongo
-from model import evaluateMCQ, evaluateFillBlanks, evaluateBrief
+from app import db
+from model import evaluateMCQ, evaluateFillBlanks, evaluateEquation, evaluateBrief
+from OCR import requestOCR, image_to_bytes
 
 test = Blueprint('test', __name__)
 
@@ -30,9 +31,14 @@ def attempt_test(paperID):
 
         studentID = session.get('studentID')
         data = request.form
+        files = request.files
+        briefAnswers = []
+        for row in files:
+            file = files.get(row)
+            briefAnswers.append(image_to_bytes(file))
+
         MCQAnswers = [int(data['group1']), int(data['group2']), int(data['group3'])]
         fillBlanksAnswers = [data['fitb1'], data['fitb2'], data['fitb3'], data['fitb4'], data['fitb5']]
-        briefAnswers = [data['brief1'], data['brief2']]
 
         studentAnswer = {
             "studentID": studentID,
@@ -43,12 +49,12 @@ def attempt_test(paperID):
                 "question3": briefAnswers
             }
         }
-        mongo.db.answer_papers.insert_one(studentAnswer)
+        db.answer_papers.insert_one(studentAnswer)
         return render_template('test_submit_success.html')
 
     studentID = session.get('studentID')
-    paper = mongo.db.question_papers.find_one({"questionPaperID": paperID})
-    answerPapers = mongo.db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
+    paper = db.question_papers.find_one({"questionPaperID": paperID})
+    answerPapers = db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
     paperIDList = [paper['questionPaperID'] for paper in answerPapers]
     paperName = paper['questionPaperName']
 
@@ -58,17 +64,21 @@ def attempt_test(paperID):
     
     return render_template("test_already_attempted.html", paperName=paperName)
 
-@test.route("/evaluateTest/<paperID>",methods=['GET','POST'])
+@test.route("/evaluateTest/<paperID>")
 @teacher_logged_in
 def evaluate_test(paperID):
 
-    questionPaper = mongo.db.question_papers.find_one({"questionPaperID": paperID})
-    answerPaper = mongo.db.answer_papers.find({"questionPaperID": paperID})
+    questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
+    answerPaper = db.answer_papers.find({"questionPaperID": paperID})
     referenceAnswer = questionPaper['answers']
+    paperName = questionPaper['questionPaperName']
     marksWeight = questionPaper['marks']
 
     for paper in answerPaper:
         studentAnswer = paper['answers']
+
+        for index in range(len(studentAnswer['question3'])):
+            studentAnswer['question3'][index] = requestOCR(studentAnswer['question3'][index])
 
         MCQTotal = evaluateMCQ(studentAnswer['question1'], referenceAnswer['question1'], marksWeight['question1'])
         fillBlanksTotal = evaluateFillBlanks(studentAnswer['question2'], referenceAnswer['question2'], marksWeight['question2'])
@@ -85,9 +95,10 @@ def evaluate_test(paperID):
         scores = {
             "studentID": studentID,
             "questionPaperID": paperID,
+            "questionPaperName": paperName,
             "score": score,
             "total": total
         }
-        mongo.db.scores.insert_one(scores)
+        db.scores.insert_one(scores)
 
-    return "success"
+    return render_template('teacher_test_corrected.html')

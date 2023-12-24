@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from flask_pymongo import PyMongo
+from pymongo.mongo_client import MongoClient
 
 app = Flask(__name__)
 app.secret_key = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
 
-mongo = PyMongo(app, uri="mongodb://localhost:27017/AutoExamPaperCorrection")
+uri="mongodb://localhost:27017"
+client = MongoClient(uri)
+db = client['AutoExamPaperCorrection']
 
 @app.route("/")
 def home():
@@ -19,7 +21,7 @@ def student_register():
         studentName = data['student_name']
         studentPassword = data['student_pwd']
 
-        if mongo.db.students.find_one({"studentID": studentID}):
+        if db.students.find_one({"studentID": studentID}):
             return render_template("student_exists.html")
 
         dict = {
@@ -28,7 +30,7 @@ def student_register():
             "studentPassword": studentPassword
         }
 
-        mongo.db.students.insert_one(dict)
+        db.students.insert_one(dict)
         return render_template("student_login.html")
     
     return render_template('student_register.html')
@@ -41,7 +43,7 @@ def student_login():
         studentID = data['student_id']
         studentPassword = data['student_pwd']
 
-        if mongo.db.students.find_one({"studentID": studentID, "studentPassword": studentPassword}):
+        if db.students.find_one({"studentID": studentID, "studentPassword": studentPassword}):
             session['student_logged_in'] = True
             session['studentID'] = studentID
             return redirect(url_for('student.student_home_page'))
@@ -57,7 +59,7 @@ def teacher_login():
         teacherID = data['teacher_id']
         teacherPassword = data['teacher_pwd']
 
-        if mongo.db.teachers.find_one({"teacherID": teacherID, "teacherPassword": teacherPassword}):
+        if db.teachers.find_one({"teacherID": teacherID, "teacherPassword": teacherPassword}):
             session['teacher_logged_in'] = True
             session['teacherID'] = teacherID
             return redirect(url_for('teacher.teacher_home_page'))

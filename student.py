@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 from functools import wraps
-from app import mongo
+from app import db
 
 student = Blueprint('student', __name__)
 
@@ -22,8 +22,8 @@ def student_home_page():
 @logged_in
 def student_view_tests():
     studentID = session.get('studentID')
-    papers = mongo.db.question_papers.find()
-    answerPapers = mongo.db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
+    papers = db.question_papers.find()
+    answerPapers = db.answer_papers.find({"studentID": studentID}, {"questionPaperID": True, "_id": False})
     paperIDList = [paper['questionPaperID'] for paper in answerPapers]
     data = []
     
@@ -39,11 +39,12 @@ def student_view_tests():
 def student_view_scores():
     data = []
     studentID = session.get('studentID')
-    papers = mongo.db.scores.find({"studentID": studentID})
+    papers = db.scores.find({"studentID": studentID})
+
     for paper in papers:
         questionPaperID = paper['questionPaperID']
         score = paper['total']
-        questionPaper = mongo.db.question_papers.find_one({"questionPaperID": questionPaperID})
+        questionPaper = db.question_papers.find_one({"questionPaperID": questionPaperID})
         questionPaperName = questionPaper['questionPaperName']
-        data.append([questionPaperName, score])
+        data.append((questionPaperName, score))
     return render_template('student_view_scores.html', data=data, len=len(data))
