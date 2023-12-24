@@ -114,6 +114,7 @@ def add_test():
     return render_template('teacher_add_test.html')
 
 @teacher.route("/viewPapers")
+@logged_in
 def view_question_papers():
     teacherID = session.get("teacherID")
     question_papers = db.question_papers.find({"teacherID": teacherID})
@@ -137,6 +138,7 @@ def view_question_papers():
     return render_template('teacher_view_papers.html', nc_len=len(nc_data), nc_data=nc_data, c_len=len(c_data), c_data=c_data)
 
 @teacher.route("/viewPapers/<paperID>")
+@logged_in
 def teacher_view_test(paperID):
     questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
     paperName = questionPaper['questionPaperName']

@@ -67,6 +67,11 @@ def teacher_login():
     
     return render_template('teacher_login.html')
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 if __name__ == "__main__":
     from student import student
     from teacher import teacher
