@@ -56,7 +56,13 @@ def add_test():
                 data['fb4'],
                 data['fb5']
             ],
-            "question3": [
+            "question3":[
+                data['e1'],
+                data['e2'],
+                data['e3'],
+                data['e4']
+            ],
+            "question4": [
                 data['p1'],
                 data['p2']
             ]
@@ -75,9 +81,15 @@ def add_test():
                 data['q2ans4'],
                 data['q2ans5']
             ],
-            "question3": [
+            "question3":[
                 data['q3ans1'],
-                data['q3ans2']
+                data['q3ans2'],
+                data['q3ans3'],
+                data['q3ans4']
+            ],
+            "question4": [
+                data['q4ans1'],
+                data['q4ans2']
             ]
         }
 
@@ -94,7 +106,13 @@ def add_test():
                 1,
                 1
             ],
-            "question3": [
+            "question3":[
+                5,
+                5,
+                5,
+                5
+            ],
+            "question4": [
                 10,
                 10
             ]

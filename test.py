@@ -39,6 +39,7 @@ def attempt_test(paperID):
 
         MCQAnswers = [int(data['group1']), int(data['group2']), int(data['group3'])]
         fillBlanksAnswers = [data['fitb1'], data['fitb2'], data['fitb3'], data['fitb4'], data['fitb5']]
+        eqanswers= [data['em1'], data['em2'], data['em3'], data['em4']]
 
         studentAnswer = {
             "studentID": studentID,
@@ -46,7 +47,8 @@ def attempt_test(paperID):
             "answers": {
                 "question1": MCQAnswers,
                 "question2": fillBlanksAnswers,
-                "question3": briefAnswers
+                "question3": eqanswers,
+                "question4": briefAnswers
             }
         }
         db.answer_papers.insert_one(studentAnswer)
