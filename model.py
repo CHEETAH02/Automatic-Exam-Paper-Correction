@@ -62,6 +62,12 @@ def evaluateBrief(studentAnswer, referenceAnswer, marksWeight):
 
     return total
 
+def evaluateEquation(studentAnswer,referenceAnswer,marksWeight):
+    # total = []
+    pass
+
+
+
 def get_cosine_similarity(sentence_embedding1, sentence_embedding2):
     cosine_similarity = np.dot(sentence_embedding1, sentence_embedding2) / (norm(sentence_embedding1) * norm(sentence_embedding2))
     return cosine_similarity
