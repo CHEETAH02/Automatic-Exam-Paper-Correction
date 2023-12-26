@@ -3,11 +3,13 @@
         <title>View Scores</title>
     </head>
     <body>
+
         {% for i in range(0, len) %}
         <div>
             <h4>Paper Name: {{ data[i][0] }}<br>
-            Score: {{ data[i][1] }}</h4>
+            Score: {{ data[i][1] }}/28</h4>
         </div>
         {% endfor %}
+        
     </body>
 </html>
