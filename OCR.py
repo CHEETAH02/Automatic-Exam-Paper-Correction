@@ -48,5 +48,5 @@ def requestOCR(data):
         temp.append(response.json()['responses'][0]['textAnnotations'][index]['description'])
     response = ' '.join(temp)
     response = spell(response)
-    print(response)
+    # print(response)
     return response

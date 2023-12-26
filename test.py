@@ -2,7 +2,7 @@ from flask import Blueprint, session, redirect, url_for, render_template, reques
 from functools import wraps
 import numpy as np
 from app import db
-from model import evaluateMCQ, evaluateFillBlanks, evaluateEquation, evaluateBrief
+from model import evaluateMCQ, evaluateFillBlanks, expression_trial, evaluateBrief
 from OCR import requestOCR, image_to_bytes
 
 test = Blueprint("test", __name__)
@@ -61,10 +61,10 @@ def attempt_test(paperID):
                 "question4": briefAnswers,
             },
         }
-        lines = eqanswers[0].split("\n")
-        print(lines[0])
-        print(lines[1])
-        print(len(lines))
+        # lines = eqanswers[0].split("\n")
+        # print(lines[0])
+        # print(lines[1])
+        # print(len(lines))
         db.answer_papers.insert_one(studentAnswer)
         return render_template("test_submit_success.html")
 
@@ -96,13 +96,14 @@ def evaluate_test(paperID):
     referenceAnswer = questionPaper["answers"]
     paperName = questionPaper["questionPaperName"]
     marksWeight = questionPaper["marks"]
+    eqquestions=questionPaper["questions"]["question3"]
 
     for paper in answerPaper:
         studentAnswer = paper["answers"]
 
-        for index in range(len(studentAnswer["question3"])):
-            studentAnswer["question3"][index] = requestOCR(
-                studentAnswer["question3"][index]
+        for index in range(len(studentAnswer["question4"])):
+            studentAnswer["question4"][index] = requestOCR(
+                studentAnswer["question4"][index]
             )
 
         MCQTotal = evaluateMCQ(
@@ -115,10 +116,11 @@ def evaluate_test(paperID):
             referenceAnswer["question2"],
             marksWeight["question2"],
         )
-        equationsTotal = evaluateEquation(
+        equationsTotal = expression_trial(
             studentAnswer["question3"],
             referenceAnswer["question3"],
             marksWeight["question3"],
+            eqquestions
         )
         briefTotal = evaluateBrief(
             studentAnswer["question4"],
@@ -126,13 +128,16 @@ def evaluate_test(paperID):
             marksWeight["question4"],
         )
 
-        total = int(np.sum(MCQTotal) + np.sum(fillBlanksTotal) + np.sum(briefTotal))
-
+        # print("##########################")
+        # print(equationsTotal)
+        # print("###########################")
+        total = int(np.sum(MCQTotal) + np.sum(fillBlanksTotal) + np.sum(briefTotal) + np.sum(equationsTotal))
         studentID = paper["studentID"]
         score = {
             "question1": MCQTotal,
             "question2": fillBlanksTotal,
-            "question3": briefTotal,
+            "question3": equationsTotal,
+            "question4": briefTotal,
         }
         scores = {
             "studentID": studentID,

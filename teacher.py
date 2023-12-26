@@ -70,9 +70,9 @@ def add_test():
 
         answers = {
             "question1": [
-                data['q1ans1'],
-                data['q1ans2'],
-                data['q1ans3']
+                int(data['q1ans1']),
+                int(data['q1ans2']),
+                int(data['q1ans3'])
             ],
             "question2": [
                 data['q2ans1'],
