@@ -1,18 +1,25 @@
 <html>
     <head>
         <title>View Tests</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        {% if len != 0 %}
+    <body style = "background-image: url('../static/view_tst.png'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div style="font-size: 50px;margin-top: 10px;" class="italic text-slate-50">Your Tests</div>
+            <div style="width: 600px;height: 600px; margin-top: 40px; padding-top: 20px; padding-bottom: 20px;" class="bg-green-900 text-slate-50 italic rounded-lg">
+                {% if len != 0 %}
 
-        {% for i in range(0, len) %}
-        <button><a href="{{ url_for('test.attempt_test', paperID=data[i][0]) }}">{{ data[i][1] }}</a></button>
-        {% endfor %}
+                {% for i in range(0, len) %}
+                <button><a href="{{ url_for('test.attempt_test', paperID=data[i][0]) }}">{{ data[i][1] }}</a></button>
+                {% endfor %}
 
-        {% else %}
+                {% else %}
 
-        <h3>No tests right now</h3>
+                <h3>No tests right now</h3>
 
-        {% endif %}
+                {% endif %}
+            </div>
+        </center>
+        
     </body>
 </html>

@@ -1,9 +1,12 @@
 <html>
     <head>
         <title>Teacher Not Existing!</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        <h2>No teacher registered with given credentials. You have either given wrong credentials or haven't registered.</h2>
-        <button><a href="{{ url_for('teacher_login') }}">Go to Login Page</a></button>
+    <body style = "background-image: url('../static/teacher_not_exist.jpg'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div style="font-size: 50px;margin-top: 30px;margin-left: 20px; margin-right: 20px;" class="text-slate-500">No teacher registered with given credentials. You have either given wrong credentials or haven't registered.</div>
+            <button style="margin-top: 100px; font-size: 20px;" class="text-slate-50 italic"><a href="{{ url_for('teacher_login') }}">Go to Login Page</a></button>
+        </center>
     </body>
 </html>

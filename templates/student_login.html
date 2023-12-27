@@ -1,13 +1,19 @@
 <html>
     <head>
         <title>Student Login</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        <form action="{{ url_for('student_login') }}" method="post">
-            Student ID: <input type="text" placeholder="enter your ID" name="student_id"><br>
-            Password: <input type="password" placeholder="enter password" name="student_pwd"><br>
-            <input type="submit">
-        </form>
-        <button><a href="{{ url_for('student_register') }}">Not Registered Yet?</a></button>
+    <body style = "background-image: url('../static/stud_login.jpg'); background-repeat: no-repeat ;background-size: cover;">
+            <center><p style="margin-top: 70px;font-size: 50px;" class="text-slate-50">Student Login</p></center>
+            <div class="text-slate-50 bg-green-900 italic" style="width: 700px; margin-top: 130px; height: 300px; padding-top: 30px; margin-left: 400px; padding-left: 50px;">
+                <form action="{{ url_for('student_login') }}" method="post">
+                    Student ID: <input type="text" placeholder="enter your ID" name="student_id" class="bg-transparent"><br><br>
+                    Password: <input type="password" placeholder="enter password" name="student_pwd" class="bg-transparent"><br><br><br>
+                    <input type="submit"  style="cursor: pointer;">
+                </form><br>
+                <button  style="cursor: pointer;"><a href="{{ url_for('student_register') }}">Not Registered Yet?</a></button>
+            </div>
+        
+        
     </body>
 </html>

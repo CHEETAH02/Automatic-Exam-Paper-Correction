@@ -1,15 +1,23 @@
 <html>
     <head>
         <title>View Scores</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
+    <body  style = "background-image: url('../static/test-score.jpg'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div style="font-size: 50px;margin-top: 10px;" class="italic">Your Scores</div>
+            <div style="width: 600px;height: 600px; margin-top: 40px; padding-top: 20px; padding-bottom: 20px;" class="bg-green-900 text-slate-50 italic rounded-lg">
+                {% for i in range(0, len) %}
+                <div>
+                    <h4>Paper Name: {{ data[i][0] }}<br>
+                    Score: {{ data[i][1] }}/28</h4>
+                </div>
+                {% endfor %}
+            </div>
 
-        {% for i in range(0, len) %}
-        <div>
-            <h4>Paper Name: {{ data[i][0] }}<br>
-            Score: {{ data[i][1] }}/28</h4>
-        </div>
-        {% endfor %}
+        </center>
+       
+        
         
     </body>
 </html>

@@ -1,10 +1,14 @@
 <html>
     <head>
         <title>Student Already Existing!</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        <h2>You have already registered! Redirect to Login Page?</h2>
-        <button><a href="{{ url_for('student_login') }}">Yes</a></button>
-        <button><a href="{{ url_for('home') }}">No</a></button>
+    <body style = "background-image: url('../static/registered.jpeg'); background-repeat: no-repeat ;background-size: cover;">
+        <center><p style="margin-top: 50px; font-size: 50px;" class="">You have already registered! Redirect to Login Page?</p></center>
+        <div style="margin-left: 500px; margin-right: 500px; margin-top: 100px;height: 200px;" class="bg-green-900">
+            <button style="margin-top: 80px;margin-left: 150px; font-size: 20px;" class="text-slate-50 italic"><a href="{{ url_for('student_login') }}">Yes</a></button>
+            <button style="margin-left: 100px;font-size: 20px;" class="text-slate-50 italic"><a href="{{ url_for('home') }}">No</a></button>
+        </div>
+        
     </body>
 </html>

@@ -1,10 +1,15 @@
 <html>
     <head>
         <title>Student Home Page</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        <button><a href="{{ url_for('student.student_view_tests') }}">Browse Tests</a></button>
-        <button><a href="{{ url_for('student.student_view_scores') }}">Check Scores</a></button>
-        <button><a href="{{ url_for('logout') }}">Logout</a></button>
+    <body style = "background-image: url('../static/stud_hp.jpeg'); background-repeat: no-repeat ;background-size: cover;">
+        <p style="font-size: 50px;margin-left: 720px; margin-top: 30px;">Student Home Page</p>
+        <div style="width: 600px; margin-left: 650px; margin-top: 100px; height: 500px;" class="bg-yellow-300">
+            <center><button style="margin-top: 100px;font-size: 30px;" class="italic"><a href="{{ url_for('student.student_view_tests') }}">Browse Tests</a></button><br></center>
+            <center><button style="margin-top: 50px;font-size: 30px;"class="italic"><a href="{{ url_for('student.student_view_scores') }}">Check Scores</a></button><br></center>
+            <center><button style="margin-top: 50px;font-size: 30px;"class="italic"><a href="{{ url_for('logout') }}">Logout</a></button></center>
+        </div>
+        
     </body>
 </html>

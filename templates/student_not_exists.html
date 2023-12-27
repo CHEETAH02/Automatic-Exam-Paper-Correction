@@ -1,10 +1,14 @@
 <html>
     <head>
         <title>Student Not Existing!</title>
+        <link rel="stylesheet" href = "../static/css/main.css">
     </head>
-    <body>
-        <h2>No student registered with given credentials. You have either given wrong credentials or haven't registered. Register now?</h2>
-        <button><a href="{{ url_for('student_register') }}">Yes</a></button>
-        <button><a href="{{ url_for('student_login') }}">No</a></button>
+    <body style = "background-image: url('../static/stud_no_ex.jpeg'); background-repeat: no-repeat ;background-size: cover;">
+        <center><div style="font-size: 50px; margin-top: 70px; margin-left: 30px;margin-right: 30px;" class="text-slate-50">No student registered with given credentials. You have either given wrong credentials or haven't registered. Register now?</div>></center>
+        <div style="margin-left: 500px; width: 400px; margin-top: 150px ;height: 80px;font-size: 20px;" class="bg-green-900 text-slate-50 italic rounded-lg">
+            <button style="margin-left: 80px;margin-top: 20px; font-style: italic;"><a href="{{ url_for('student_register') }}">Yes</a></button>
+            <button style="margin-left: 150px;font-style: italic;"><a href="{{ url_for('student_login') }}">No</a></button>
+        </div>
+        
     </body>
 </html>
