@@ -1,0 +1,39 @@
+<html>
+
+    <head>
+        <title>Admin Login</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/stud_login.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <center>
+            <p style="margin-top: 70px;font-size: 50px;"
+                class="text-slate-50">
+                <span
+                    style="background-color: rgba(0, 0, 0, 70%); padding: 10px;">Admin
+                    Login</span>
+            </p>
+        </center>
+        <center>
+            <div class="text-slate-50 bg-green-900 italic"
+                style="padding: 30px; width: 500px; margin: 50px;">
+                <form action="{{ url_for('admin_login') }}" method="post">
+                    Admin ID: <input required type="text"
+                        placeholder="enter your ID"
+                        name="admin_id" class="bg-transparent"
+                        style="border-bottom: 2px solid white;"><br><br>
+                    Password: <input required type="password"
+                        placeholder="enter password"
+                        name="admin_pwd"
+                        class="bg-transparent"
+                        style="border-bottom: 2px solid white;"><br><br><br>
+                    <input type="submit"
+                        style="cursor: pointer; border-bottom: 2px solid white;">
+                </form>
+            </div>
+        </center>
+
+    </body>
+
+</html>

@@ -1,0 +1,38 @@
+<html>
+
+    <head>
+        <title>Student Login</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/stud_login.jpg'); background-repeat: no-repeat; background-size: cover;">
+        <center>
+            <p style="margin-top: 70px;font-size: 50px;"
+                class="text-slate-50">
+                <span
+                    style="background-color: rgba(0, 0, 0, 70%); padding: 10px;">Student
+                    Login</span>
+            </p>
+        </center>
+        <center>
+            <div class="text-slate-50 bg-green-900 italic"
+                style="padding: 30px; width: 500px; margin: 50px;">
+                <form action="{{ url_for('student_login') }}" method="post">
+                    Student ID: <input required type="text" placeholder="enter your ID"
+                        name="student_id" class="bg-transparent" style="border-bottom: 2px solid white;"><br><br>
+                    Password: <input required type="password"
+                        placeholder="enter password"
+                        name="student_pwd"
+                        class="bg-transparent" style="border-bottom: 2px solid white;"><br><br><br>
+                    <input type="submit" style="cursor: pointer; border-bottom: 2px solid white;">
+                </form>
+                <a href="{{ url_for('student_register') }}"><button
+                        style="cursor: pointer; border-bottom: 2px solid white;">Not Registered Yet?</button><a
+                        href="{{ url_for('student_register') }}"></a>
+                </div>
+            </center>
+
+        </body>
+
+    </html>

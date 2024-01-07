@@ -1,0 +1,38 @@
+<html>
+
+    <head>
+        <title>{{ person }} Not Existing!</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/teacher_not_exist.jpg'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div
+                style="font-size: 50px;margin-top: 30px;margin-left: 20px; margin-right: 20px;"
+                class="text-slate-500">No
+                {{ person }} registered with given credentials. You have either
+                given wrong credentials or haven't
+                registered.</div>
+            {% if person=='Student' %}
+            <a
+                href="{{ url_for('student_login') }}"><button
+                    style="margin-top: 100px; font-size: 20px;"
+                    class="text-slate-50 italic">Go to Login Page</button></a>
+                    
+            {% elif person=='Admin' %}
+            <a
+                href="{{ url_for('admin_login') }}"><button
+                    style="margin-top: 100px; font-size: 20px;"
+                    class="text-slate-50 italic">Go to Login Page</button></a>
+
+            {% else %}
+            <a
+                href="{{ url_for('teacher_login') }}"><button
+                    style="margin-top: 100px; font-size: 20px;"
+                    class="text-slate-50 italic">Go to Login Page</button></a>
+            {% endif %}
+        </center>
+    </body>
+
+</html>

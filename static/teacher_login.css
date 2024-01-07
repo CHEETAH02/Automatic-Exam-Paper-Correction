@@ -1,0 +1,43 @@
+body {
+    background-image: url("https://w7.pngwing.com/pngs/761/667/png-transparent-web-page-background-material-irregularities-page-irregular-background-cloud-yellow-background.png");
+    background-repeat: repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.container3
+{
+    height:100vh;
+    width:100vw;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.formcontainer
+{
+ display: flex;
+ align-items: center;
+ /* justify-content: center; */
+ flex-direction: column;
+ gap: 10px;
+}
+
+.input
+{
+    height: 30px;
+    width: 200px;
+    border-radius: 5px;
+    border: none;
+}
+.btn
+{
+    background-color: rgb(165, 127, 255);
+    font-size:medium;
+    border-radius: 5px;
+    padding: 8px;
+    border: none;  
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+}

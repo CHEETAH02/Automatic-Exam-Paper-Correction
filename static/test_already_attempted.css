@@ -1,0 +1,34 @@
+body {
+    background-image: url("https://cdn.gencraft.com/prod/user/deb6b2c6-92f4-48a4-b41c-531cdbd9630b/211dd8df-a9ef-4f0b-9a8b-26412941b849/image/image0_0.jpg?Expires=1702910099&Signature=Fc5Ns0JYeYZhKaGQtPEFkrYp43R7HYsfEpI9aZwe0e87CxiZfx9vN2kCiIqFoooOlET2XnBEBS5A8jGhXWFCsfPhwlPOBYKdXz7HnfjcZdaBzuqLkEybcbry9Viy-qxRODYl6XPDV4hdYWxQdcQ-j5RIYYVtpBlOJgR27ikaC7pVhVR4mFus3~sJigJ9vCe-TRUgsQW9V9-twq7R6gl6sqYAyevqvuSHAbC8hqfKKvYAaLNn0K410YuD3dF4h35Rd-072HOdmlsYkxWV~bAcDlInClycBEyqCNey4yF0nIWe3u-P4Ecm7wL6YtYhlq7fdLXjqtdxPStKbIU4YwmvHg__&Key-Pair-Id=K3RDDB1TZ8BHT8");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.container1{
+    height:100vh;
+    width:100vw;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+   }
+   .heading1{
+       font-family:Arial, Helvetica, sans-serif;
+       color:whitesmoke;
+       font-size:xx-large;
+   }
+   
+   .btn1{
+       background-color:rgb(162, 0, 94);
+       padding: 10px;
+       border-radius: 5px;
+       border: none;   
+   }
+   
+   a{
+       text-decoration: none;
+       font-family:Arial, Helvetica, sans-serif;
+       font-weight: bolder;
+       color:wheat;
+   }

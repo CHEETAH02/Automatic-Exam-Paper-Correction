@@ -1,0 +1,22 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css"
+            href="{{ url_for('static', filename='teacher_home_page.css') }}">
+        <link rel="stylesheet" type="text/css"
+            href="{{ url_for('static', filename='css/main.css') }}">
+        <title>Admin Home Page</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <a href="{{ url_for('admin.add_teacher') }}"><button
+                    class="btn1">Add Teacher</button></a><br>
+            <a href="{{ url_for('admin.check_all') }}"><button class="btn">Check
+                    All Students and Teachers</button></a><br>
+            <a href="{{ url_for('logout') }}"><button
+                    class="btn2">Logout</button></a>
+        </div>
+    </body>
+
+</html>

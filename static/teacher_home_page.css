@@ -1,0 +1,61 @@
+body {
+    background-image: url("https://images.unsplash.com/photo-1464618663641-bbdd760ae84a?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2Vic2l0ZSUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
+
+.container
+{
+    height:100vh;
+    width:100vw;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.btn1
+{
+    background-color:rgb(0,162,120);
+    padding: 10px;
+    border-radius: 5px;
+    border: none;   
+}
+
+.btn2
+{
+    background-color: red;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.btn
+{
+    background-color:rgb(95, 15, 71);
+    padding: 10px;
+    border-radius: 5px;
+    border: none;   
+}
+.btn a{
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    color: white;
+}
+
+
+.btn1 a{
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    color: white;
+}
+
+.btn2 a{
+    text-decoration: none;
+    font-family:Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    color: white;
+}

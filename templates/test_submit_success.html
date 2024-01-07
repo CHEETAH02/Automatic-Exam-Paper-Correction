@@ -1,0 +1,23 @@
+{% include "student_navbar.html" ignore missing %}
+
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static'/test_submit_success.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
+
+        <title>Answers Submitted Successfully</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <h3 class="heading">Answers submitted successfully! You can now go
+                back to home page</h3>
+            <a href="{{ url_for('student.student_home_page') }}"><button
+                    class="btn">Go to Home Page</button></a>
+        </div>
+    </body>
+
+</html>

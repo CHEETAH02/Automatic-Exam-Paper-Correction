@@ -1,0 +1,37 @@
+<html>
+
+    <head>
+        <title>{{ person }} Already Existing!</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/registered.jpeg'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <p style="margin-top: 50px; font-size: 50px;" class>{{ person }}
+                already registered! Redirect to Login Page?
+            </p>
+        </center>
+        <div
+            style="margin-left: 500px; margin-right: 500px; margin-top: 100px;height: 200px;"
+            class="bg-green-900">
+            {% if person=='Student' %}
+            <a
+                href="{{ url_for('student_login') }}"><button
+                    style="margin-top: 80px;margin-left: 150px; font-size: 20px;"
+                    class="text-slate-50 italic">Go to Login Page</button></a>
+            {% else %}
+            <a
+                href="{{ url_for('teacher_login') }}"><button
+                    style="margin-top: 80px;margin-left: 150px; font-size: 20px;"
+                    class="text-slate-50 italic">Go to Login Page</button></a>
+            {% endif %}
+            <a
+                href="{{ url_for('home') }}"><button
+                    style="margin-left: 100px;font-size: 20px;"
+                    class="text-slate-50 italic">Home Page</button></a>
+        </div>
+
+    </body>
+
+</html>

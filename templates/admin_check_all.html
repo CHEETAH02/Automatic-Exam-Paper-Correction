@@ -1,0 +1,26 @@
+{% include "admin_navbar.html" ignore missing %}
+<html>
+    <head>
+        <title>Check all Students, Teachers and Tests</title>
+    </head>
+    <body>
+        <div>
+            All Teachers:<br>
+            {% for i in range(teachers|length) %}
+            <h5>{{ teachers[i][0] }}: {{ teachers[i][1] }}</h5>
+            {% endfor %}
+        </div><br>
+        <div>
+            All Students:
+            {% for i in range(students|length) %}
+            <h5>{{ students[i][0] }}: {{ students[i][1] }}</h5>
+            {% endfor %}
+        </div><br>
+        <div>
+            All Tests:
+            {% for i in range(tests|length) %}
+            <h5>{{ tests[i][0] }}: {{ tests[i][1] }}</h5>
+            {% endfor %}
+        </div>
+    </body>
+</html>

@@ -1,0 +1,43 @@
+{% include "student_navbar.html" ignore missing %}
+
+<html>
+
+    <head>
+        <title>Confirm Start</title>
+    </head>
+
+    <body>
+        <center>
+            <a
+                href="{{ url_for('test.attempt_test', paperID=paperID) }}"><button
+                    class="btn">Start
+                    test - {{ paperName }}?</button></a>
+        </center>
+    </body>
+    <style>
+        body {
+            background-image: url("https://images.unsplash.com/photo-1464618663641-bbdd760ae84a?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2Vic2l0ZSUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
+            background-size: cover;
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        .btn {
+            background-color:rgb(0,162,120);
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            text-decoration: none;
+            font-family:Arial, Helvetica, sans-serif;
+            font-weight: bolder;
+            color: white;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .btn:hover {
+            background-color: black !important;
+            color: white !important;
+            transition: 0.2s;
+        }
+    </style>
+</html>

@@ -1,0 +1,22 @@
+{% include "teacher_navbar.html" ignore missing %}
+
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static/test_added.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
+        <title>Test Added Successfully</title>
+    </head>
+
+    <body>
+        <div class="container2">
+            <h3 class="heading2">Test added successfully! You can now go back to
+                home page</h3>
+            <a href="{{ url_for('teacher.teacher_home_page') }}"><button
+                    class="btn2">Go to Home Page</button></a>
+        </div>
+    </body>
+
+</html>

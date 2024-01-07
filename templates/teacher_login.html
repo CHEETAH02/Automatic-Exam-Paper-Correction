@@ -1,0 +1,25 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static/teacher_login.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
+
+        <title>Teacher Login</title>
+    </head>
+
+    <body>
+        <div class="container3">
+            <form class="formcontainer" action="{{ url_for('teacher_login') }}"
+                method="post">
+                <div> <input required class="input" type="text" name="teacher_id"
+                        placeholder="Enter your ID"></div>
+                <div><input required class="input" type="password" name="teacher_pwd"
+                        placeholder="Enter password"></div>
+                <input class="btn" type="submit">
+            </div>
+        </form>
+    </body>
+
+</html>

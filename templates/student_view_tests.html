@@ -1,0 +1,41 @@
+{% include "student_navbar.html" ignore missing %}
+
+<html>
+
+    <head>
+        <title>View Tests</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/view_tst.png'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div style="font-size: 50px; margin: 10px;"
+                class="italic text-slate-50">Your Tests</div>
+            <div
+                style="width: 600px; margin: 40px; padding: 20px; border-radius: 10px;"
+                class="bg-green-900 text-slate-50 italic rounded-lg">
+                {% if len != 0 %}
+                <table style="border-radius: 10px;">
+                    {% for i in range(0, len) %}
+                    <tr style="border-radius: 10px;">
+                        <td style="padding: 5px; background-color: lightgreen;">
+                            <center>
+                                <a
+                                    href="{{ url_for('test.confirm_start', paperID=data[i][0], paperName=data[i][1]) }}"><button style="width: 100%;">
+
+                                        {{ data[i][1] }}
+                                    </button></a>
+                            </center>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% else %}
+                <h3>No tests right now</h3>
+                {% endif %}
+            </div>
+        </center>
+    </body>
+
+</html>

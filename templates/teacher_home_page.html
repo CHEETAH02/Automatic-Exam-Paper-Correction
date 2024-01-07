@@ -1,0 +1,22 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static/teacher_home_page.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
+        <title>Teacher Home Page</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <a href="{{ url_for('teacher.add_test') }}"><button class="btn1">Add
+                    Test</button></a><br>
+            <a href="{{ url_for('teacher.view_question_papers') }}"><button
+                    class="btn">Evaluate Papers</button></a><br>
+            <a href="{{ url_for('logout') }}"><button
+                    class="btn2">Logout</button></a>
+        </div>
+    </body>
+
+</html>

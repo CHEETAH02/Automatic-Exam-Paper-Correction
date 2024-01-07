@@ -1,0 +1,76 @@
+{% include "teacher_navbar.html" ignore missing %}
+
+<html>
+
+    <head>
+        <title>View Papers</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body
+        style="background-image: url('/static/tcherlogin.jpeg'); background-repeat: no-repeat ;background-size: cover;">
+        <center>
+            <div style="font-size: 50px;margin-top: 10px;"
+                class="text-slate-50">View Papers</div>
+            <div
+                style="width: 600px;height: 600px; margin-top: 40px; padding-top: 20px; padding-bottom: 20px;"
+                class="italic text-slate-50 bg-green-900 rounded-lg">
+                {% if nc_len != 0 %}
+
+                <h3>Not Corrected</h3><br>
+                <table>
+                    <tr>
+                        <td class="tdata">Paper Name</td>
+                        <td class="tdata">No. of Students Attended</td>
+                    </tr>
+                    {% for i in range(nc_len) %}
+                    <tr>
+                        <div>
+                            <td class="tdata">
+                                <a
+                                    href="{{ url_for('teacher.teacher_view_test', paperID=nc_data[i][0]) }}">{{
+                                    nc_data[i][1] }}</a>
+                            </td>
+                            <td class="tdata"> {{ nc_data[i][2] }} </td>
+                            <td class="tdata">
+                                <a
+                                    href="{{ url_for('test.evaluate_test', paperID=nc_data[i][0]) }}"><button
+                                        style="padding: 5px; border-style: double; border-color: black; border-width: 1px; background-color: lightgreen; border-radius: 5px; ">
+                                        Correct
+                                        Paper
+                                    </button></a>
+                            </td>
+                        </div>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </table>
+                <br>
+                {% if c_len != 0 %}
+
+                <h3>Corrected</h3><br>
+                <table>
+                    <tr>
+                        <td class="tdata">Paper Name</td>
+                        <td class="tdata">No. of Students Attended</td>
+                    </tr>
+                    {% for i in range(c_len) %}
+                    <tr>
+                        <div>
+                            <td class="tdata">
+                                <a
+                                    href="{{ url_for('teacher.teacher_view_test', paperID=c_data[i][0]) }}">{{
+                                    c_data[i][1] }}
+                                </a></td>
+                            <td class="tdata">{{ c_data[i][2] }}</td><br>
+                        </div>
+                    </tr>
+                    {% endfor %}
+
+                    {% endif %}
+                </div>
+            </center>
+
+        </body>
+
+    </html>
