@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from functools import wraps
-from app import db
+from db import db
 
 teacher = Blueprint('teacher', __name__)
 

@@ -1,18 +1,19 @@
 from flask import Flask, render_template, request, session, redirect, url_for
-from pymongo.mongo_client import MongoClient
 import os
+from db import db
+from student import student
+from teacher import teacher
+from admin import admin
+from paper import paper
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SESSION_KEY')
 #app.secret_key = 'YOUR_SESSION_KEY'
 
-username = 'AEPC_user'
-password = os.environ.get('DB_PASSWORD')
-# password = 'YOUR_MONGODB_PASSWORD'
-uri = "mongodb+srv://%s:%s@cluster0.3fajycc.mongodb.net/?retryWrites=true&w=majority" % (
-    username, password)
-client = MongoClient(uri)
-db = client['AutoExamPaperCorrection']
+app.register_blueprint(student, url_prefix="/student")
+app.register_blueprint(teacher, url_prefix="/teacher")
+app.register_blueprint(admin, url_prefix="/admin")
+app.register_blueprint(paper, url_prefix="/paper")
 
 
 @app.route("/")
@@ -60,7 +61,7 @@ def student_login():
         if db.students.find_one({"studentID": studentID, "studentPassword": studentPassword}):
             session['student_logged_in'] = True
             session['studentID'] = studentID
-            return redirect(url_for('student.student_home_page'))
+            return redirect("/student/homePage")
         return render_template('not_exists.html', person='Student')
 
     return render_template('student_login.html')
@@ -103,13 +104,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    from student import student
-    from teacher import teacher
-    from admin import admin
-    from test import test
-    app.register_blueprint(student, url_prefix="/student")
-    app.register_blueprint(teacher, url_prefix="/teacher")
-    app.register_blueprint(admin, url_prefix="/admin")
-    app.register_blueprint(test, url_prefix="/test")
-
     app.run(debug=True)
+    

@@ -1,14 +1,14 @@
 from flask import Blueprint, session, redirect, url_for, render_template, request
 from functools import wraps
 import numpy as np
-from app import db
+from db import db
 import requests
 import PIL
 import posixpath
 from model import evaluateMCQ, evaluateFillBlanks, evaluateEquations, evaluateBrief
 from OCR import requestOCR, image_to_bytes
 
-test = Blueprint("test", __name__)
+paper = Blueprint("paper", __name__)
 
 
 # To be put between every route decorator and function if student logged in
@@ -31,13 +31,13 @@ def teacher_logged_in(f):
 
     return decorated_func
 
-@test.route("/confirmStart/<paperID>")
+@paper.route("/confirmStart/<paperID>")
 @student_logged_in
 def confirm_start(paperID):
     paperName = request.args.get('paperName')
     return render_template("test_confirm_start.html", paperID=paperID, paperName=paperName)
 
-@test.route("/attemptTest/<paperID>", methods=["GET", "POST"])
+@paper.route("/attemptTest/<paperID>", methods=["GET", "POST"])
 @student_logged_in
 def attempt_test(paperID):
     if request.method == "POST":
@@ -103,7 +103,7 @@ def attempt_test(paperID):
     return render_template("test_already_attempted.html", paperName=paperName)
 
 
-@test.route("/evaluateTest/<paperID>")
+@paper.route("/evaluateTest/<paperID>")
 @teacher_logged_in
 def evaluate_test(paperID):
     questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
