@@ -111,7 +111,6 @@ def evaluate_test(paperID):
     referenceAnswer = questionPaper["answers"]
     paperName = questionPaper["questionPaperName"]
     marksWeight = questionPaper["marks"]
-    eqquestions = questionPaper["questions"]["question3"]
 
     for paper in answerPaper:
         studentAnswer = paper["answers"]
@@ -135,7 +134,7 @@ def evaluate_test(paperID):
             studentAnswer["question3"],
             referenceAnswer["question3"],
             marksWeight["question3"],
-            eqquestions
+            questionPaper["questions"]["question3"]
         )
         briefTotal = evaluateBrief(
             studentAnswer["question4"],

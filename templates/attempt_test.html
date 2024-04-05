@@ -7,7 +7,7 @@
     </head>
 
     <body
-        style="background-image: url('/static/attempttest.jpg'); background-repeat: no-repeat; background-size: cover;">
+        style="background-image: url('/static/attempttest.jpg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
         <div class="text-slate-50">Automatic Submission in: <span
                 id="time">00:00</span> minutes!</div>
         <form action="{{ url_for('paper.attempt_test', paperID=paperID) }}"
@@ -162,4 +162,4 @@
     };
 </script>
 
-</html>
+        </html>
