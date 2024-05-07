@@ -9,176 +9,32 @@
 
     <body
         style="background-image: url('/static/teacherviewtest.jpeg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
-        <div style="margin-top: 10px;margin-left: 10px;">
-            <div style="font-size: 40px;font-style: italic;">View Test: {{
-                paperName }}</div>
-            <div style="font-size: 20px; margin-top: 30px;">Question 1:
-                MCQs</div>
-            <div style="margin-left: 20px;">
-
-                1.1: {{ questions['question1'][0]['MCQ1'] }}<br>
-                <fieldset id="group1">
-                    {% if answers['question1'][0] == 1 %}
-                    <input type="radio" value=1 name="group1" checked>{{
-                    questions['question1'][0]['option1'] }}<br>
+        <div class="text-slate-50">Automatic Submission in: <span id="time">00:00:00</span> minutes!</div>
+        {% for section, question_list in questions.items() %}
+        <div style="margin-bottom: 20px;">
+            <h3>{{ section }}</h3>
+            {% for question in question_list %}
+            {% set counter = loop.index - 1 %}
+            <div style="margin-bottom: 20px;">
+                {% if section != 'MCQs' %}
+                {{ loop.index }}. {{ question }}
+                <input type="text" value="{{ answers[section][loop.index - 1] }}" name="{{ section|lower }}_{{ loop.index }}">
+                {% else %}
+                {{ loop.index }}. {{ question['question'] }}
+                <fieldset id="{{ section|lower }}_{{ loop.index }}">
+                    {% for option in question['options'] %}
+                    {% if question['options'].index(option) + 1 == answers[section][counter] %}
+                    <input type="radio" value="{{ loop.index }}" name="{{ section|lower }}_{{ loop.index }}" checked>{{ option }}
                     {% else %}
-                    <input type="radio" value=1 name="group1">{{
-                    questions['question1'][0]['option1'] }}<br>
+                    <input type="radio" value="{{ loop.index }}" name="{{ section|lower }}_{{ loop.index }}">{{ option }}
                     {% endif %}
-                    {% if answers['question1'][0] == 2 %}
-                    <input type="radio" value=2 name="group1" checked>{{
-                    questions['question1'][0]['option2'] }}<br>
-                    {% else %}
-                    <input type="radio" value=2 name="group1">{{
-                    questions['question1'][0]['option2'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][0] == 3 %}
-                    <input type="radio" value=3 name="group1" checked>{{
-                    questions['question1'][0]['option3'] }}
-                    {% else %}
-                    <input type="radio" value=3 name="group1">{{
-                    questions['question1'][0]['option3'] }}
-                    {% endif %}
-                    {% if answers['question1'][0] == 4 %}
-                    <input type="radio" value=4 name="group1" checked>{{
-                    questions['question1'][0]['option4'] }}<br>
-                    {% else %}
-                    <input type="radio" value=4 name="group1">{{
-                    questions['question1'][0]['option4'] }}<br>
-                    {% endif %}
-                </fieldset><br><br>
-
-                1.2: {{ questions['question1'][1]['MCQ2'] }}<br>
-                <fieldset id="group2">
-                    {% if answers['question1'][1] == 1 %}
-                    <input type="radio" value=1 name="group2" checked>{{
-                    questions['question1'][1]['option1'] }}<br>
-                    {% else %}
-                    <input type="radio" value=1 name="group2">{{
-                    questions['question1'][1]['option1'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][1] == 2 %}
-                    <input type="radio" value=2 name="group2" checked>{{
-                    questions['question1'][1]['option2'] }}<br>
-                    {% else %}
-                    <input type="radio" value=2 name="group2">{{
-                    questions['question1'][1]['option2'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][1] == 3 %}
-                    <input type="radio" value=3 name="group2" checked>{{
-                    questions['question1'][1]['option3'] }}<br>
-                    {% else %}
-                    <input type="radio" value=3 name="group2">{{
-                    questions['question1'][1]['option3'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][1] == 4 %}
-                    <input type="radio" value=4 name="group2" checked>{{
-                    questions['question1'][1]['option4'] }}<br><br>
-                    {% else %}
-                    <input type="radio" value=4 name="group2">{{
-                    questions['question1'][1]['option4'] }}<br><br>
-                    {% endif %}
-                </fieldset><br><br>
-
-                1.3: {{ questions['question1'][2]['MCQ3'] }}<br><br>
-                <fieldset id="group3">
-                    {% if answers['question1'][2] == 1 %}
-                    <input type="radio" value=1 name="group3" checked>{{
-                    questions['question1'][2]['option1'] }}<br>
-                    {% else %}
-                    <input type="radio" value=1 name="group3">{{
-                    questions['question1'][2]['option1'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][2] == 2 %}
-                    <input type="radio" value=2 name="group3" checked>{{
-                    questions['question1'][2]['option2'] }}<br>
-                    {% else %}
-                    <input type="radio" value=2 name="group3">{{
-                    questions['question1'][2]['option2'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][2] == 3 %}
-                    <input type="radio" value=3 name="group3" checked>{{
-                    questions['question1'][2]['option3'] }}<br>
-                    {% else %}
-                    <input type="radio" value=3 name="group3">{{
-                    questions['question1'][2]['option3'] }}<br>
-                    {% endif %}
-                    {% if answers['question1'][2] == 4 %}
-                    <input type="radio" value=4 name="group3" checked>{{
-                    questions['question1'][2]['option4'] }}<br><br>
-                    {% else %}
-                    <input type="radio" value=4 name="group3">{{
-                    questions['question1'][2]['option4'] }}<br><br>
-                    {% endif %}
-                </fieldset><br><br>
-
+                    {% endfor %}
+                </fieldset>
+                {% endif %}
             </div>
+            {% endfor %}
         </div>
-        <div style="margin-top: 10px;margin-left: 10px;">
-            <div style="font-size: 20px;">Question 2: Fill in the blanks</div>
-            <div style="margin-left: 20px;">
-                2.1: {{ questions['question2'][0] }}<br><br>
-                <textarea readonly>{{ answers['question2'][0]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                2.2: {{ questions['question2'][1] }}<br><br>
-                <textarea readonly>{{ answers['question2'][1]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                2.3: {{ questions['question2'][2] }}<br><br>
-                <textarea readonly>{{ answers['question2'][2]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                2.4: {{ questions['question2'][3] }}<br><br>
-                <textarea readonly>{{ answers['question2'][3]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                2.5: {{ questions['question2'][4] }}<br><br>
-                <textarea readonly>{{ answers['question2'][4]
-                    }}</textarea><br><br>
-            </div>
-        </div>
-        <div style="margin-top: 10px;margin-left: 10px;">
-            <div style="font-size: 20px;">Question 3: Simplify Expression</div>
-            <div style="margin-left: 20px;">
-                3.1: {{ questions['question3'][0] }}<br><br>
-                <textarea readonly>{{ answers['question3'][0]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                3.2: {{ questions['question3'][1] }}<br><br>
-                <textarea readonly>{{ answers['question3'][1]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                3.3: {{ questions['question3'][2] }}<br><br>
-                <textarea readonly>{{ answers['question3'][2]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                3.4: {{ questions['question3'][3] }}<br><br>
-                <textarea readonly>{{ answers['question3'][3]
-                    }}</textarea><br><br>
-            </div>
-        </div>
-        <div style="margin-top: 10px;margin-left: 10px;">
-            <div style="font-size: 20px;">Question 4: Answer Briefly</div>
-            <div style="margin-left: 20px;">
-                4.1: {{ questions['question4'][0] }}<br><br>
-                <textarea readonly>{{ answers['question4'][0]
-                    }}</textarea><br><br>
-            </div>
-            <div style="margin-left: 20px;">
-                4.2: {{ questions['question4'][1] }}<br><br>
-                <textarea readonly>{{ answers['question4'][1]
-                    }}</textarea><br><br>
-            </div>
-
-        </div>
+        {% endfor %}
     </body>
 
 </html>

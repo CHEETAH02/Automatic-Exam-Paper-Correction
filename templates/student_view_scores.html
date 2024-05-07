@@ -16,28 +16,9 @@
                 style="width: 600px; margin-top: 40px; margin-bottom: 40px; padding: 40px;"
                 class="bg-green-900 text-slate-50 italic rounded-lg">
                 {% for i in range(data|length) %}
-                <div>
-                    <h4>Paper Name: {{ data[i][0] }}<br>
-                        Score: {{ data[i][1] }}/48<br>
-                        Marks for each question:<br>
-                        Question 1: MCQs<br>
-                        {% for j in range(data[i][2]['question1']|length) %}
-                        1.{{ j+1 }} {{ data[i][2]['question1'][j] }}<br>
-                        {% endfor %}
-                        Question 2: Fill in the Blanks<br>
-                        {% for j in range(data[i][2]['question2']|length) %}
-                        2.{{ j+1 }} {{ data[i][2]['question2'][j] }}<br>
-                        {% endfor %}
-                        Question 3: Equation Solving<br>
-                        {% for j in range(data[i][2]['question3']|length) %}
-                        3.{{ j+1 }} {{ data[i][2]['question3'][j] }}<br>
-                        {% endfor %}
-                        Question 4: Brief Answers<br>
-                        {% for j in range(data[i][2]['question4']|length) %}
-                        4.{{ j+1 }} {{ data[i][2]['question4'][j] }}<br>
-                        {% endfor %}
-                    </h4>
-                </div>
+                <h4><a href="/student/viewScores/{{ data[i]['questionPaperID'] }}">
+                    {{ data[i]['questionPaperName'] }}: {{ data[i]['score'] }} / {{ data[i]['maximumMarks'] }}
+                </a></h4>
                 {% endfor %}
             </div>
 

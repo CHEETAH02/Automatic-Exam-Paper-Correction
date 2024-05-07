@@ -2,14 +2,11 @@ from flask import Blueprint, session, redirect, url_for, render_template, reques
 from functools import wraps
 import numpy as np
 from db import db
-import requests
 import PIL
-import posixpath
 from model import evaluateMCQ, evaluateFillBlanks, evaluateEquations, evaluateBrief
-from OCR import requestOCR, image_to_bytes
+from OCR import requestOCR
 
 paper = Blueprint("paper", __name__)
-
 
 # To be put between every route decorator and function if student logged in
 def student_logged_in(f):
@@ -31,53 +28,55 @@ def teacher_logged_in(f):
 
     return decorated_func
 
+
 @paper.route("/confirmStart/<paperID>")
 @student_logged_in
 def confirm_start(paperID):
     paperName = request.args.get('paperName')
     return render_template("test_confirm_start.html", paperID=paperID, paperName=paperName)
 
+
 @paper.route("/attemptTest/<paperID>", methods=["GET", "POST"])
 @student_logged_in
 def attempt_test(paperID):
     if request.method == "POST":
-        
+
         studentID = session.get("studentID")
         data = request.form
         files = request.files
+        questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
         briefAnswers = []
 
         for row in files:
             try:
                 file = files.get(row)
-                briefAnswers.append(image_to_bytes(file))
-                
-            except PIL.UnidentifiedImageError:
-                base_url = request.url_root.rstrip('/')
-                image_url = url_for('static', filename='not_submitted.jpg')
-                external_image_url = posixpath.join(base_url, image_url.lstrip('/'))
-                response = requests.get(external_image_url)
-                briefAnswers.append(response.content)
+                fileOCR = requestOCR(file)
+                briefAnswers.append(fileOCR)
 
-        MCQAnswers = [int(data["group1"]), int(
-            data["group2"]), int(data["group3"])]
-        fillBlanksAnswers = [
-            data["fitb1"],
-            data["fitb2"],
-            data["fitb3"],
-            data["fitb4"],
-            data["fitb5"],
-        ]
-        equationAnswers = [data["em1"], data["em2"], data["em3"], data["em4"]]
+            except PIL.UnidentifiedImageError:
+                briefAnswers.append("")
+
+        MCQAnswers = []
+        fillBlanksAnswers = []
+        equationsAnswers = []
+
+        for i in range(len(questionPaper['questions']['MCQs'])):
+            MCQAnswers.append(int(data[f'mcqs_{i + 1}']))
+
+        for i in range(len(questionPaper['questions']['fillBlanks'])):
+            fillBlanksAnswers.append(data[f'fillblanks_{i + 1}'])
+
+        for i in range(len(questionPaper['questions']['equations'])):
+            equationsAnswers.append(data[f'equations_{i + 1}'])
 
         studentAnswer = {
             "studentID": studentID,
             "questionPaperID": paperID,
             "answers": {
-                "question1": MCQAnswers,
-                "question2": fillBlanksAnswers,
-                "question3": equationAnswers,
-                "question4": briefAnswers,
+                "MCQs": MCQAnswers,
+                "fillBlanks": fillBlanksAnswers,
+                "equations": equationsAnswers,
+                "brief": briefAnswers,
             },
         }
         db.answer_papers.insert_one(studentAnswer)
@@ -85,22 +84,19 @@ def attempt_test(paperID):
 
     studentID = session.get("studentID")
     paper = db.question_papers.find_one({"questionPaperID": paperID})
-    answerPapers = db.answer_papers.find(
-        {"studentID": studentID}, {"questionPaperID": True, "_id": False}
-    )
-    paperIDList = [paper["questionPaperID"] for paper in answerPapers]
-    paperName = paper["questionPaperName"]
+    paperAlreadyAttended = db.answer_papers.find(
+        {"studentID": studentID, "paperID": paperID})
 
-    if paperID not in paperIDList:
-        questions = paper["questions"]
+    if len(list(paperAlreadyAttended)) == 0:
         return render_template(
             "attempt_test.html",
             paperID=paperID,
-            paperName=paperName,
-            questions=questions,
+            paperName=paper["questionPaperName"],
+            timeAllotted=paper["timeAllotted"],
+            questions=paper["questions"]
         )
 
-    return render_template("test_already_attempted.html", paperName=paperName)
+    return render_template("test_already_attempted.html", paperName=paper["questionPaperName"])
 
 
 @paper.route("/evaluateTest/<paperID>")
@@ -111,45 +107,52 @@ def evaluate_test(paperID):
     referenceAnswer = questionPaper["answers"]
     paperName = questionPaper["questionPaperName"]
     marksWeight = questionPaper["marks"]
+    studentList = []
 
     for paper in answerPaper:
+        studentID = paper["studentID"]
+        studentEmail = db.students.find_one({"studentID": studentID}, {
+                                            "studentEmail": True, "_id": False})
+        studentList.append(studentEmail['studentEmail'])
         studentAnswer = paper["answers"]
 
-        for index in range(len(studentAnswer["question4"])):
-            studentAnswer["question4"][index] = requestOCR(
-                studentAnswer["question4"][index]
+        if referenceAnswer["MCQs"]:
+            MCQTotal = evaluateMCQ(
+                studentAnswer["MCQs"],
+                referenceAnswer["MCQs"],
+                marksWeight["MCQs"],
             )
 
-        MCQTotal = evaluateMCQ(
-            studentAnswer["question1"],
-            referenceAnswer["question1"],
-            marksWeight["question1"],
-        )
-        fillBlanksTotal = evaluateFillBlanks(
-            studentAnswer["question2"],
-            referenceAnswer["question2"],
-            marksWeight["question2"],
-        )
-        equationsTotal = evaluateEquations(
-            studentAnswer["question3"],
-            referenceAnswer["question3"],
-            marksWeight["question3"],
-            questionPaper["questions"]["question3"]
-        )
-        briefTotal = evaluateBrief(
-            studentAnswer["question4"],
-            referenceAnswer["question4"],
-            marksWeight["question4"],
-        )
+        if referenceAnswer["fillBlanks"]:
+            fillBlanksTotal = evaluateFillBlanks(
+                studentAnswer["fillBlanks"],
+                referenceAnswer["fillBlanks"],
+                marksWeight["fillBlanks"],
+            )
+
+        if referenceAnswer["equations"]:
+            equationsTotal = evaluateEquations(
+                studentAnswer["equations"],
+                referenceAnswer["equations"],
+                marksWeight["equations"],
+                questionPaper["questions"]["equations"]
+            )
+
+        if referenceAnswer["brief"]:
+            briefTotal = evaluateBrief(
+                studentAnswer["brief"],
+                referenceAnswer["brief"],
+                marksWeight["brief"],
+            )
 
         total = int(np.sum(MCQTotal) + np.sum(fillBlanksTotal) +
                     np.sum(briefTotal) + np.sum(equationsTotal))
-        studentID = paper["studentID"]
+
         score = {
-            "question1": MCQTotal,
-            "question2": fillBlanksTotal,
-            "question3": equationsTotal,
-            "question4": briefTotal,
+            "MCQs": MCQTotal,
+            "fillBlanks": fillBlanksTotal,
+            "equations": equationsTotal,
+            "brief": briefTotal,
         }
         scores = {
             "studentID": studentID,
@@ -158,6 +161,7 @@ def evaluate_test(paperID):
             "score": score,
             "total": total,
         }
-        db.scores.insert_one(scores)
 
-    return render_template("teacher_test_corrected.html")
+        db.scores.insert_one(scores)
+    studentList = ','.join(studentList)
+    return redirect(url_for("create_mail", paperID=paperID, paperName=paperName, studentList=studentList))

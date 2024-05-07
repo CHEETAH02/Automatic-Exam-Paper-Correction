@@ -5,6 +5,8 @@ from db import db
 teacher = Blueprint('teacher', __name__)
 
 # To be put between every route decorator and function if teacher logged in
+
+
 def logged_in(f):
     @wraps(f)
     def decorated_func(*args, **kwargs):
@@ -13,123 +15,88 @@ def logged_in(f):
         return redirect(url_for("teacher_login"))
     return decorated_func
 
+
 @teacher.route("/homePage")
 @logged_in
 def teacher_home_page():
     return render_template('teacher_home_page.html')
 
+
 @teacher.route("/addTest", methods=['GET', 'POST'])
 @logged_in
 def add_test():
     if request.method == 'POST':
-
         teacherID = session.get('teacherID')
         data = request.form
-        questions = {
-            "question1": [
-                {
-                    "MCQ1": data['mcq1'],
-                    "option1": data['op11'],
-                    "option2": data['op12'],
-                    "option3": data['op13'],
-                    "option4": data['op14']
-                },
-                {
-                    "MCQ2": data['mcq2'],
-                    "option1": data['op21'],
-                    "option2": data['op22'],
-                    "option3": data['op23'],
-                    "option4": data['op24']
-                },
-                {
-                    "MCQ3": data['mcq3'],
-                    "option1": data['op31'],
-                    "option2": data['op32'],
-                    "option3": data['op33'],
-                    "option4": data['op34']
-                }
-            ],
-            "question2": [
-                data['fb1'],
-                data['fb2'],
-                data['fb3'],
-                data['fb4'],
-                data['fb5']
-            ],
-            "question3": [
-                data['e1'],
-                data['e2'],
-                data['e3'],
-                data['e4']
-            ],
-            "question4": [
-                data['p1'],
-                data['p2']
-            ]
-        }
 
-        answers = {
-            "question1": [
-                int(data['q1ans1']),
-                int(data['q1ans2']),
-                int(data['q1ans3'])
-            ],
-            "question2": [
-                data['q2ans1'],
-                data['q2ans2'],
-                data['q2ans3'],
-                data['q2ans4'],
-                data['q2ans5']
-            ],
-            "question3": [
-                data['q3ans1'],
-                data['q3ans2'],
-                data['q3ans3'],
-                data['q3ans4']
-            ],
-            "question4": [
-                data['q4ans1'],
-                data['q4ans2']
-            ]
-        }
+        questions = {}
+        answers = {}
+        marks = {}
+        total = 0
 
-        marks = {
-            "question1": [
-                1,
-                1,
-                1
-            ],
-            "question2": [
-                1,
-                1,
-                1,
-                1,
-                1
-            ],
-            "question3": [
-                5,
-                5,
-                5,
-                5
-            ],
-            "question4": [
-                10,
-                10
-            ]
-        }
+        if int(data['mcq_count']) > 0:
+            MCQlist = [{
+                "question": data[f"mcq{i}"],
+                "options": [data[f"op{i}{j}"] for j in range(1, 5)]
+            } for i in range(1, int(data['mcq_count']) + 1)]
+            questions["MCQs"] = MCQlist
+
+            MCQAnswerlist = [int(data[f"mcq_ans{i}"]) for i in range(1, int(data['mcq_count']) + 1)]
+            answers["MCQs"] = MCQAnswerlist
+
+            marks["MCQs"] = int(data["mcq_marks"])
+            
+            total += (int(data['mcq_count']) * int(data["mcq_marks"]))
+
+        if int(data['fitb_count']) > 0:
+            fillBlanksList = [data[f"fitb{i}"] for i in range(1, int(data['fitb_count']) + 1)]
+            questions["fillBlanks"] = fillBlanksList
+
+            fillBlanksAnswerList = [data[f"fitb_ans{i}"] for i in range(1, int(data['fitb_count']) + 1)]
+            answers["fillBlanks"] = fillBlanksAnswerList
+
+            marks["fillBlanks"] = int(data["fitb_marks"])
+
+            total += (int(data['fitb_count']) * int(data["fitb_marks"]))
+
+        if int(data['equation_count']) > 0:
+            equationList = [data[f"equation{i}"] for i in range(1, int(data['equation_count']) + 1)]
+            questions["equations"] = equationList
+
+            equationAnswerList = [data[f"equation_ans{i}"] for i in range(1, int(data['equation_count']) + 1)]
+            answers["equations"] = equationAnswerList
+
+            marks["equations"] = int(data["eq_marks"])
+
+            total += (int(data['equation_count']) * int(data["eq_marks"]))
+
+        if int(data['brief_count']) > 0:
+            briefList = [data[f"brief{i}"] for i in range(1, int(data['brief_count']) + 1)]
+            questions["brief"] = briefList
+
+            briefAnswerList = [data[f"brief_ans{i}"] for i in range(1, int(data['brief_count']) + 1)]
+            answers["brief"] = briefAnswerList
+
+            marks["brief"] = int(data["brief_marks"])
+
+            total += (int(data['brief_count']) * int(data["brief_marks"]))
 
         question_paper = {
             "teacherID": teacherID,
             "questionPaperID": data['paper_id'],
             "questionPaperName": data['paper_name'],
+            "timeAllotted": data['time_allotted'],
             "questions": questions,
             "answers": answers,
-            "marks": marks
+            "marks": marks,
+            "maximumMarks": total
         }
+
         db.question_papers.insert_one(question_paper)
         return render_template('test_added.html')
 
     return render_template('teacher_add_test.html')
+
 
 @teacher.route("/viewPapers")
 @logged_in
@@ -158,11 +125,13 @@ def view_question_papers():
 
     return render_template('teacher_view_papers.html', nc_len=len(nc_data), nc_data=nc_data, c_len=len(c_data), c_data=c_data)
 
+
 @teacher.route("/viewPapers/<paperID>")
 @logged_in
 def teacher_view_test(paperID):
     questionPaper = db.question_papers.find_one({"questionPaperID": paperID})
     paperName = questionPaper['questionPaperName']
+    timeAllotted = questionPaper['timeAllotted']
     questions = questionPaper['questions']
     answers = questionPaper['answers']
-    return render_template("teacher_view_test.html", paperID=paperID, paperName=paperName, questions=questions, answers=answers)
+    return render_template("teacher_view_test.html", paperID=paperID, paperName=paperName, timeAllotted=timeAllotted, questions=questions, answers=answers)

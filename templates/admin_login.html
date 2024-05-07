@@ -2,11 +2,15 @@
 
     <head>
         <title>Admin Login</title>
-        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="../static/css/main.css">
     </head>
 
     <body
-        style="background-image: url('/static/stud_login.jpg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
+        style="background-image: linear-gradient(45deg, transparent 20%, black 25%, transparent 25%),
+        linear-gradient(-45deg, transparent 20%, rgb(244, 13, 13) 25%, transparent 25%),
+        linear-gradient(-45deg, transparent 75%, rgb(230, 230, 24) 80%, transparent 0),
+        radial-gradient(rgb(14, 228, 54) 2px, transparent 0);
+        background-size: 30px 30px, 30px 30px;">
         <center>
             <p style="margin-top: 70px;font-size: 50px;"
                 class="text-slate-50">
@@ -16,8 +20,8 @@
             </p>
         </center>
         <center>
-            <div class="text-slate-50 bg-green-900 italic"
-                style="padding: 30px; width: 500px; margin: 50px;">
+            <div class="text-slate-50 italic"
+                style="padding: 30px; width: 500px; margin: 50px; background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px;">
                 <form action="{{ url_for('admin_login') }}" method="post">
                     Admin ID: <input required type="text"
                         placeholder="enter your ID"

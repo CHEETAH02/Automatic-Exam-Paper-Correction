@@ -14,128 +14,82 @@
             class="text-slate-50">Add New Test</div>
         <div style="font-size: 20px; margin: 25px;"
             class="text-slate-50">
-            <form action="{{ url_for('teacher.add_test') }}" method="POST">
-
+            <form action="{{ url_for('teacher.add_test') }}" method="post">
                 Question Paper ID: <br><input type="text" name="paper_id"
                     class="text-black"><br><br>
                 Question Paper Name: <br><input type="text" name="paper_name"
                     class="text-black" style="width: 1000px;"><br><br>
+                Time Allotted for taking test (hh:mm:ss): <input type="time"
+                    value="00:00:00" name="time_allotted" min="1" step="1"
+                    class="text-black"><br><br>
 
                 <fieldset id="questions">
                     <div style="font-size: 30px; margin-bottom: 10px;"
                         class="text-slate-50">Questions</div>
+                    <button type="button" id="mcq_toggle">Enable MCQ
+                        Questions</button><br><br>
+                    <div id="mcq_div" style="display: none;">
+                        <label for="mcq_marks">Marks For Each Question: </label>
+                        <input type="number" min="1" max="100" name="mcq_marks"
+                            id="mcq_marks" value=1 class="text-black"><br>
+                        <input type="hidden" name="mcq_count" id="mcq_count"
+                            value=0>
 
-                    Question1: MCQs<br><br>
+                        <button type="button" id="mcq_add">Add MCQ</button>
+                        <button type="button" id="mcq_remove">Remove Previous
+                            MCQ</button><br>
+                    </div>
+                    <button type="button" id="fitb_toggle">Enable
+                        Fill-in-the-Blanks</button><br><br>
+                    <div id="fitb_div" style="display: none;">
+                        <label for="fitb_marks">Marks For Each Question:
+                        </label>
+                        <input type="number" min="1" max="100" name="fitb_marks"
+                            id="fitb_marks" value=1 class="text-black"><br>
+                        <input type="hidden" name="fitb_count" id="fitb_count"
+                            value=0>
 
-                    1.1. <input type="text" name="mcq1"
-                        class="text-black" style="width: 1000px;"><br><br>
-                    a. <input type="text" name="op11" class="text-black">
-                    b. <input type="text" name="op12" class="text-black">
-                    c. <input type="text" name="op13" class="text-black">
-                    d. <input type="text" name="op14" class="text-black">
-                    <br><br>
+                        <button type="button" id="fitb_add">Add FITB
+                            Question</button>
+                        <button type="button" id="fitb_remove">Remove Previous
+                            FITB Question</button><br>
+                    </div>
+                    <button type="button" id="equation_toggle">Enable Equation
+                        Matching Question</button><br><br>
+                    <div id="equation_div" style="display: none;">
+                        <label for="eq_marks">Marks For Each Question: </label>
+                        <input type="number" min="1" max="100" name="eq_marks"
+                            id="eq_marks" value=1 class="text-black"><br>
+                        <input type="hidden" name="equation_count"
+                            id="equation_count" value=0>
 
-                    1.2. <input type="text" name="mcq2"
-                        class="text-black" style="width: 1000px;"><br><br>
-                    a. <input type="text" name="op21" class="text-black">
-                    b. <input type="text" name="op22" class="text-black">
-                    c. <input type="text" name="op23" class="text-black">
-                    d. <input type="text" name="op24" class="text-black">
-                    <br><br>
+                        <button type="button" id="equation_add">Add Equation
+                            Question</button>
+                        <button type="button" id="equation_remove">Remove
+                            Previous Equation Question</button><br>
+                    </div>
+                    <button type="button" id="brief_toggle">Enable Brief Answer
+                        Questions</button><br><br>
+                    <div id="brief_div" style="display: none;">
+                        <label for="brief_marks">Marks For Each Question:
+                        </label>
+                        <input type="number" min="1" max="100"
+                            name="brief_marks" id="brief_marks" value=1
+                            class="text-black"><br>
+                        <input type="hidden" name="brief_count" id="brief_count"
+                            value=0>
 
-                    1.3. <input type="text" name="mcq3"
-                        class="text-black" style="width: 1000px;"><br><br>
-                    a. <input type="text" name="op31" class="text-black">
-                    b. <input type="text" name="op32" class="text-black">
-                    c. <input type="text" name="op33" class="text-black">
-                    d. <input type="text" name="op34" class="text-black">
-                    <br><br>
-
-                    Question 2: Fill In The Blanks<br><br>
-                    2.1. <input type="text" name="fb1"
-                        class="text-black"><br><br>
-                    2.2. <input type="text" name="fb2"
-                        class="text-black"><br><br>
-                    2.3. <input type="text" name="fb3"
-                        class="text-black"><br><br>
-                    2.4. <input type="text" name="fb4"
-                        class="text-black"><br><br>
-                    2.5. <input type="text" name="fb5"
-                        class="text-black"><br><br>
-                    <br>
-
-                    Question 3: Equations<br><br>
-                    3.1. <input type="text" name="e1"
-                        class="text-black"><br><br>
-                    3.2. <input type="text" name="e2"
-                        class="text-black"><br><br>
-                    3.3. <input type="text" name="e3"
-                        class="text-black"><br><br>
-                    3.4. <input type="text" name="e4"
-                        class="text-black"><br><br>
-                    <br>
-
-                    Question 4: Paragraph<br><br>
-                    4.1. <input type="text" name="p1"
-                        class="text-black" style="width: 80%;"><br><br>
-                    4.2. <input type="text" name="p2"
-                        class="text-black" style="width: 80%;"><br><br>
-                    <br>
-
+                        <button type="button" id="brief_add">Add Brief Answer
+                            Question</button>
+                        <button type="button" id="brief_remove">Remove Previous
+                            Brief Answer Question</button><br>
+                    </div>
                 </fieldset>
-
-                <fieldset id="answers">
-                    <div style="font-size: 30px; margin-bottom: 10px;"
-                        class="text-slate-50">Answers</div>
-
-                    Question 1: MCQs<br><br>
-                    1.1. <input type="number" name="q1ans1"
-                        class="text-black"><br><br>
-                    1.2. <input type="number" name="q1ans2"
-                        class="text-black"><br><br>
-                    1.3. <input type="number" name="q1ans3"
-                        class="text-black"><br><br>
-                    <br>
-
-                    Question 2: Fill In The Blanks<br><br>
-                    2.1. <input type="text" name="q2ans1"
-                        class="text-black"><br><br>
-                    2.2. <input type="text" name="q2ans2"
-                        class="text-black"><br><br>
-                    2.3. <input type="text" name="q2ans3"
-                        class="text-black"><br><br>
-                    2.4. <input type="text" name="q2ans4"
-                        class="text-black"><br><br>
-                    2.5. <input type="text" name="q2ans5"
-                        class="text-black"><br><br>
-                    <br>
-
-                    Question 3: Equation matching<br><br>
-                    3.1. <input type="text" name="q3ans1"
-                        class="text-black"><br><br>
-                    3.2. <input type="text" name="q3ans2"
-                        class="text-black"><br><br>
-                    3.3. <input type="text" name="q3ans3"
-                        class="text-black"><br><br>
-                    3.4. <input type="text" name="q3ans4"
-                        class="text-black"><br><br>
-                    <br>
-
-                    Question 4: Paragraph<br><br>
-                    4.1. <input type="text" name="q4ans1"
-                        class="text-black" style="width: 80%;"><br><br>
-                    4.2. <input type="text" name="q4ans2"
-                        class="text-black" style="width: 80%;"><br><br>
-                    <br>
-
-                </fieldset>
-
-                <input type="submit"
-                    style="color: black; padding: 5px; background-color: green; border-radius: 5px; ">
-
+                <input type="submit">
             </form>
         </div>
 
     </body>
+    <script src="/static/script.js"></script>
 
 </html>

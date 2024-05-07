@@ -46,12 +46,42 @@ def student_view_scores():
     papers = db.scores.find({"studentID": studentID})
 
     if papers:
-        for paper in papers:
-            questionPaperID = paper['questionPaperID']
-            marksDistribution = paper['score']
-            score = paper['total']
+        for answerPaper in papers:
+
+            questionPaperID = answerPaper['questionPaperID']
+            score = answerPaper['total']
+
             questionPaper = db.question_papers.find_one(
                 {"questionPaperID": questionPaperID})
             questionPaperName = questionPaper['questionPaperName']
-            data.append((questionPaperName, score, marksDistribution))
+
+            maximumMarks = questionPaper['maximumMarks']
+            
+            data.append({'questionPaperID': questionPaperID, 'questionPaperName': questionPaperName, 'score': score, 'maximumMarks': maximumMarks})
+    print(data)
     return render_template('student_view_scores.html', data=data, length=len(data))
+
+
+@student.route("/viewScores/<paperID>")
+@logged_in
+def student_view_scores_single(paperID):
+
+    # paperID*, paperName*, teacherID*, studentID*, teacherName*, questions*, studentAnswers, referenceAnswer*, individualScore, total, maximumMarks*
+    studentID = session.get('studentID')
+    questionPaper = db.question_papers.find_one({'questionPaperID': paperID})
+    paperName = questionPaper['questionPaperName']
+    questions = questionPaper['questions']
+    referenceAnswers = questionPaper['answers']
+    maximumMarks = questionPaper['maximumMarks']
+    teacherID = questionPaper['teacherID']
+    teacher = db.teachers.find_one({'teacherID': teacherID})
+    teacherName = teacher['teacherName']
+    student = db.answer_papers.find_one({'studentID': studentID, 'questionPaperID': paperID})
+    studentAnswers = student['answers']
+    scores = db.scores.find_one({'studentID': studentID, 'questionPaperID': paperID})
+    marksDistribution = scores['score']
+    total = scores['total']
+
+    data = {"paperID": paperID, "paperName": paperName, "teacherID": teacherID, "teacherName": teacherName, "questions": questions, "studentAnswers": studentAnswers, "referenceAnswers": referenceAnswers, "marksDistribution": marksDistribution, "total": total, "maximumMarks": maximumMarks}
+
+    return render_template("student_view_scores_single.html", data=data)
