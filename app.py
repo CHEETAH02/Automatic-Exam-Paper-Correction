@@ -123,7 +123,7 @@ def create_mail():
     msg = Message(f"Paper {paperName} ({paperID}) has been Corrected",
                   sender='chetansathish02@gmail.com', recipients=studentList)
     msg.body = f"The Paper {paperName} has been corrected. You may check your score (http://127.0.0.1:5000/student/viewScore).\n\nThis mail is automated. Replies to this mail may not be checked."
-    # mail.send(msg)
+    mail.send(msg)
 
     return render_template("teacher_test_corrected.html")
 

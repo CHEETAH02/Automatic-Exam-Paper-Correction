@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, session, redirect, url_for
+from flask import Blueprint, render_template, session, redirect, url_for, request
 from functools import wraps
 from db import db
+import numpy as np
 
 student = Blueprint('student', __name__)
 
@@ -66,7 +67,6 @@ def student_view_scores():
 @logged_in
 def student_view_scores_single(paperID):
 
-    # paperID*, paperName*, teacherID*, studentID*, teacherName*, questions*, studentAnswers, referenceAnswer*, individualScore, total, maximumMarks*
     studentID = session.get('studentID')
     questionPaper = db.question_papers.find_one({'questionPaperID': paperID})
     paperName = questionPaper['questionPaperName']
@@ -82,6 +82,26 @@ def student_view_scores_single(paperID):
     marksDistribution = scores['score']
     total = scores['total']
 
-    data = {"paperID": paperID, "paperName": paperName, "teacherID": teacherID, "teacherName": teacherName, "questions": questions, "studentAnswers": studentAnswers, "referenceAnswers": referenceAnswers, "marksDistribution": marksDistribution, "total": total, "maximumMarks": maximumMarks}
+    data = {"paperID": paperID, "paperName": paperName, "teacherID": teacherID, "studentID": studentID, "teacherName": teacherName, "questions": questions, "studentAnswers": studentAnswers, "referenceAnswers": referenceAnswers, "marksDistribution": marksDistribution, "total": total, "maximumMarks": maximumMarks}
 
     return render_template("student_view_scores_single.html", data=data)
+
+
+@student.route("/feedback", methods=['POST'])
+def feedback():
+    studentID = session.get('studentID')
+    data = request.form
+    feedback = data.get('feedback')
+    paperID = data.get('paperID')
+    teacherID = data.get('teacherID')
+
+    dict = {
+        "studentID": studentID,
+        "paperID": paperID,
+        "teacherID": teacherID,
+        "feedback": feedback
+    }
+
+    db.feedbacks.insert_one(dict)
+
+    return render_template("student_home_page.html")

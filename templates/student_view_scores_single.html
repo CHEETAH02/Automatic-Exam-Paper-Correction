@@ -1,16 +1,61 @@
 <html>
     <head>
         <title>
-            View Score: {{ data['PaperName'] }}
+            View Score: {{ data['paperName'] }}
         </title>
     </head>
     <body>
-        <h2>{{ data['PaperName'] }}</h2>
+
+        <h2>Paper Name: {{ data['paperName'] }}</h2>
         <h3>Teacher: {{ data['teacherName'] }}</h3>
+
+        <h4>Total Marks Obtained: {{ data['total'] }}/{{ data['maximumMarks'] }}</h4>
         <div>
 
-            {{ data }}
+            {% for section in data['questions'] %}
 
+            <div>
+
+                {{ section }}<br><br>
+                {% for i in range(data['questions'][section]|length) %}
+
+                <div>
+
+                    {% if section == 'MCQs' %}
+                    {{ i + 1 }}. {{ data['questions'][section][i]['question'] }}<br>
+        
+                    {% for option in range(data['questions'][section][i]['options']|length) %}
+                    {{ i + 1 }}.{{ option + 1 }}. {{ data['questions'][section][i]['options'][option] }}<br>
+                    {% endfor %}
+        
+                    {% else %}
+                    {{ i + 1 }}. {{ data['questions'][section][i] }}<br>
+        
+                    {% endif %}
+        
+                    Your Answer: {{ data['studentAnswers'][section][i] }}<br>
+                    Expected Answer: {{ data['referenceAnswers'][section][i] }}<br>
+                    Marks Received: {{ data['marksDistribution'][section][i] }}<br><br>
+            
+                </div><br>
+    
+                {% endfor %}
+
+            </div><br>
+
+
+            {% endfor %}
+
+        </div>
+        <div>
+            For Queries Related to Marks Received, send a feedback using the below box:
+
+            <form action="/student/feedback" method="post">
+                <input type="hidden" name="paperID" value="{{ data['paperID'] }}">
+                <input type="hidden" name="teacherID" value="{{ data['teacherID'] }}">
+                <input type="text" name="feedback">
+                <input type="submit">
+            </form>
         </div>
     </body>
 </html>
