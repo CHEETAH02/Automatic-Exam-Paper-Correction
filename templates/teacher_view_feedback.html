@@ -1,15 +1,18 @@
-{% include "student_navbar.html" ignore missing %}
+{% include "teacher_navbar.html" ignore missing %}
 
 <html>
     <head>
         <title>
-            View Score: {{ data['paperName'] }}
+            View Student Paper and Feedback
         </title>
     </head>
     <body>
 
         <h2>Paper Name: {{ data['paperName'] }}</h2>
-        <h3>Teacher: {{ data['teacherName'] }}</h3>
+        <h3>Student Name: {{ data['studentName'] }}</h3>
+        <textarea>
+            {{ data['feedback'] }}
+        </textarea>
 
         <h4>Total Marks Obtained: {{ data['total'] }}/{{ data['maximumMarks'] }}</h4>
         <div>
@@ -35,7 +38,7 @@
         
                     {% endif %}
         
-                    Your Answer: {{ data['studentAnswers'][section][i] }}<br>
+                    Student Answer: {{ data['studentAnswers'][section][i] }}<br>
                     Expected Answer: {{ data['referenceAnswers'][section][i] }}<br>
                     Marks Received: {{ data['marksDistribution'][section][i] }}<br><br>
             
@@ -48,16 +51,6 @@
 
             {% endfor %}
 
-        </div>
-        <div>
-            For Queries Related to Marks Received, send a feedback using the below box:
-
-            <form action="/student/feedback" method="post">
-                <input type="hidden" name="paperID" value="{{ data['paperID'] }}">
-                <input type="hidden" name="teacherID" value="{{ data['teacherID'] }}">
-                <input type="text" name="feedback">
-                <input type="submit">
-            </form>
         </div>
     </body>
 </html>

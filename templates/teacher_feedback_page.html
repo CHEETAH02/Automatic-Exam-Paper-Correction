@@ -1,0 +1,21 @@
+{% include "teacher_navbar.html" ignore missing %}
+
+<html>
+    <head>
+        <title>Feedback from Students</title>
+    </head>
+    <body>
+        {% for feedback in data %}
+
+        <a
+            href="/teacher/feedback/{{ feedback['paperID'] }}/{{ feedback['studentID'] }}">
+            <div>
+                {{ feedback['paperName'] }}<br>
+                {{ feedback['studentName'] }}<br>
+                {{ feedback['feedback'] }}<br><br>
+            </div>
+        </a>
+
+        {% endfor %}
+    </body>
+</html>

@@ -128,5 +128,6 @@ def create_mail():
     return render_template("teacher_test_corrected.html")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run()
     

@@ -135,3 +135,44 @@ def teacher_view_test(paperID):
     questions = questionPaper['questions']
     answers = questionPaper['answers']
     return render_template("teacher_view_test.html", paperID=paperID, paperName=paperName, timeAllotted=timeAllotted, questions=questions, answers=answers)
+
+@teacher.route("/feedback")
+@logged_in
+def feedback():
+    teacherID = session.get('teacherID')
+    feedbacks = db.feedbacks.find({"teacherID": teacherID})
+
+    data = []
+    
+    for feedback in feedbacks:
+        studentID = feedback['studentID']
+        paperID = feedback['paperID']
+        paper = db.question_papers.find_one({"questionPaperID": paperID})
+        paperName = paper['questionPaperName']
+        student = db.students.find_one({"studentID": studentID})
+        studentName = student['studentName']
+
+        data.append({"studentID": studentID, "studentName": studentName, "paperID": paperID, "paperName": paperName, "feedback": feedback['feedback']})
+
+    return render_template("teacher_feedback_page.html", data=data)
+
+@teacher.route("/feedback/<paperID>/<studentID>")
+def feedback_single(paperID, studentID):
+
+    questionPaper = db.question_papers.find_one({'questionPaperID': paperID})
+    paperName = questionPaper['questionPaperName']
+    questions = questionPaper['questions']
+    referenceAnswers = questionPaper['answers']
+    maximumMarks = questionPaper['maximumMarks']
+    teacherID = session.get('teacherID')
+    studentName = db.students.find_one({"studentID": studentID})['studentName']
+    student = db.answer_papers.find_one({'studentID': studentID, 'questionPaperID': paperID})
+    studentAnswers = student['answers']
+    scores = db.scores.find_one({'studentID': studentID, 'questionPaperID': paperID})
+    marksDistribution = scores['score']
+    total = scores['total']
+    feedback = db.feedbacks.find_one({"teacherID": teacherID, "studentID": studentID, "paperID": paperID})['feedback']
+
+
+    data = {"paperID": paperID, "paperName": paperName, "teacherID": teacherID, "studentID": studentID, "studentName": studentName, "feedback": feedback, "questions": questions, "studentAnswers": studentAnswers, "referenceAnswers": referenceAnswers, "marksDistribution": marksDistribution, "total": total, "maximumMarks": maximumMarks}
+    return render_template("teacher_view_feedback.html", data=data)
