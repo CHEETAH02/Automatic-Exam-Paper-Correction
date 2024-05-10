@@ -9,16 +9,28 @@
         <title>Teacher Login</title>
     </head>
 
-    <body>
-        <div class="container3">
+    <body style="background: linear-gradient(-15deg, #eee152, #3ce759, #d52323, #d523b7);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
+    <center>
+        <div style="font-size: 50px; margin: 10px;"
+                class="italic text-slate-50">Teacher Login</div>
+                <img src = "../static/teacher_clip_art.jpeg" height="200px" width="200px" style="margin-top: 50px;">
+            </center>
+            <center>
+            <div 
+            style="margin-top : 70px;font-size: 20px; padding: 30px; width: 500; background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px; text-indent: 0;font-style: italic;"
+            class="italic text-slate-50">
             <form class="formcontainer" action="{{ url_for('teacher_login') }}"
                 method="post">
-                <div> <input required class="input" type="text" name="teacher_id"
-                        placeholder="Enter your ID"></div>
-                <div><input required class="input" type="password" name="teacher_pwd"
-                        placeholder="Enter password"></div>
+                <div >User ID:&nbsp;&nbsp; &nbsp;  <input required class="input" type="text" name="teacher_id"
+                        placeholder="Enter your ID" style="color: black;"></div>
+                <div >Password: &nbsp; <input required class="input" type="password" name="teacher_pwd"
+                        placeholder="Enter password" style="color: black;"></div>
                 <input class="btn" type="submit">
             </div>
+        </center>
         </form>
     </body>
 

@@ -8,17 +8,29 @@
         <title>Teacher Home Page</title>
     </head>
 
-    <body>
-        <div class="container">
-            <a href="{{ url_for('teacher.add_test') }}"><button class="btn1">Add
+    <body style="background: linear-gradient(-90deg, #52ee6f, #3cd0e7, #6123d5, #d523b7);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
+    <center>
+        <div style="font-size: 50px; margin: 10px;"
+            class="italic text-slate-50">Teacher Home Page</div>
+            <img src = "../static/teacher_home_page_icon.jpeg" height="500px" width="500px" style="margin-top: 50px;">
+    </center>
+    <center>
+    <div 
+    style="margin-top : 70px;font-size: 20px; padding: 30px; width: 500; background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px; text-indent: 0;font-style: italic;"
+    class="italic text-slate-50">
+            <a href="{{ url_for('teacher.add_test') }}"><button style="font-style: italic;">Add
                     Test</button></a><br>
             <a href="{{ url_for('teacher.feedback') }}"><button
-                    class="btn1">Student Feedbacks</button></a><br>
+                style="font-style: italic;margin-top: 10px;">Student Feedbacks</button></a><br>
             <a href="{{ url_for('teacher.view_question_papers') }}"><button
-                    class="btn">Evaluate Papers</button></a><br>
+                style="font-style: italic;margin-top: 10px;">Evaluate Papers</button></a><br>
             <a href="{{ url_for('logout') }}"><button
-                    class="btn2">Logout</button></a>
+                style="font-style: italic;margin-top: 10px;">Logout</button></a>
         </div>
+    </center>
     </body>
 
 </html>

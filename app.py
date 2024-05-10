@@ -8,7 +8,8 @@ from teacher import teacher
 from admin import admin
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('SESSION_KEY')
+#app.secret_key = os.environ.get('SESSION_KEY')
+app.secret_key = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
 
 app.register_blueprint(student, url_prefix="/student")
 app.register_blueprint(teacher, url_prefix="/teacher")

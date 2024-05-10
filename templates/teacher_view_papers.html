@@ -13,12 +13,12 @@
             <div style="font-size: 50px;margin-top: 10px;"
                 class="text-slate-50">View Papers</div>
             <div
-                style="width: 600px;height: 600px; margin-top: 40px; padding-top: 20px; padding-bottom: 20px;"
-                class="italic text-slate-50 bg-green-900 rounded-lg">
+                style="width: 600px;height: 600px; margin-top: 40px; padding-top: 20px; padding-bottom: 20px;background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px;"
+                class="italic text-slate-50 ">
                 {% if nc_len != 0 %}
 
-                <h3>Not Corrected</h3><br>
-                <table>
+                <h3 style="color: red;">Not Corrected</h3><br>
+                <table class = "text-slate-50">
                     <tr>
                         <td class="tdata">Paper Name</td>
                         <td class="tdata">No. of Students Attended</td>
@@ -35,7 +35,7 @@
                             <td class="tdata">
                                 <a
                                     href="{{ url_for('paper.evaluate_test', paperID=nc_data[i][0]) }}"><button
-                                        style="padding: 5px; border-style: double; border-color: black; border-width: 1px; background-color: lightgreen; border-radius: 5px; ">
+                                        style="color :rgb(106, 149, 106);padding: 5px; border-style: double; border-color: black; border-width: 1px; background-color: lightgreen; border-radius: 5px; ">
                                         Correct
                                         Paper
                                     </button></a>
@@ -48,8 +48,8 @@
                 <br>
                 {% if c_len != 0 %}
 
-                <h3>Corrected</h3><br>
-                <table>
+                <h3 style = "color: rgb(108, 218, 108);">Corrected</h3><br>
+                <table  class = "text-slate-50">
                     <tr>
                         <td class="tdata">Paper Name</td>
                         <td class="tdata">No. of Students Attended</td>

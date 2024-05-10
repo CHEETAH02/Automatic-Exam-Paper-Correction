@@ -2,19 +2,36 @@
 
 <html>
     <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static/teacher_home_page.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
         <title>Feedback from Students</title>
     </head>
-    <body>
+    <body
+    style="
+    background: linear-gradient(-25deg, #8152ee, #e73c94, #23a6d5, #23d588);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
+    <center>
+    <div style="font-size: 50px; margin: 10px;"
+    class="italic text-slate-50">Teacher Feedback</div>
+    <img src = "/static/teacher_feedback_icon.jpg" height="200px" width="200px" style="margin-top: 50px;">
+</center>
         {% for feedback in data %}
-
+        <center>
         <a
             href="/teacher/feedback/{{ feedback['paperID'] }}/{{ feedback['studentID'] }}">
-            <div>
+            <div style="margin-top : 70px;font-size: 20px; padding: 30px; width: 500; background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px; text-indent: 0;font-style: italic;"
+            class="italic text-slate-50">
                 {{ feedback['paperName'] }}<br>
                 {{ feedback['studentName'] }}<br>
                 {{ feedback['feedback'] }}<br><br>
+                <a href="#"><button>Resolve</button></a>
             </div>
         </a>
+    </center>
 
         {% endfor %}
     </body>
