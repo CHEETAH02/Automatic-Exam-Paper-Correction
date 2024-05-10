@@ -2,8 +2,10 @@ import numpy as np
 from numpy.linalg import norm
 from autocorrect import Speller
 from expression_trial import express_trialdef
+import tensorflow_hub as hub
 import requests
 
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
 
 def evaluateMCQ(studentAnswer, referenceAnswer, marksWeight):
     total = []
@@ -47,11 +49,8 @@ def evaluateEquations(studentAnswer, referenceAnswer, marksWeight, questions):
 def evaluateBrief(studentAnswer, referenceAnswer, marksWeight):
     total = []
 
-    url = "http://127.0.0.1:8080/sentences"
-    data = {"s1": studentAnswer, "s2": referenceAnswer}
-    response = requests.post(url, json=data).json()
-    sentence_vector_1 = response['sentence_vector_1']
-    sentence_vector_2 = response['sentence_vector_2']
+    sentence_vector_1 = embed(studentAnswer)
+    sentence_vector_2 = embed(referenceAnswer)
 
     for i in range(len(sentence_vector_1)):
         similarity = get_cosine_similarity(
