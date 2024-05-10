@@ -18,7 +18,7 @@ app.register_blueprint(paper, url_prefix="/paper")
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'chetansathish02@gmail.com'
-app.config['MAIL_PASSWORD'] = 'incm oaay ctwq hoba'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
