@@ -2,17 +2,37 @@
 
 <html>
     <head>
+        <link rel="stylesheet" type="text/css"
+            href="/static/teacher_home_page.css">
+        <link rel="stylesheet" type="text/css"
+            href="/static/css/main.css">
         <title>
             View Score: {{ data['paperName'] }}
         </title>
     </head>
-    <body>
-
+    <body
+    style="
+    background: linear-gradient(-25deg, #8152ee, #e73c94, #23a6d5, #23d588);
+    background-size: 900% 900%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
+    <center>
+        <div style="font-size: 50px; margin: 10px;"
+        class="italic text-slate-50">Check Score</div>
+        
+    </center>
+    <div style="font-size: 20px; margin: 30px;"
+    class="italic text-slate-50">
         <h2>Paper Name: {{ data['paperName'] }}</h2>
+    </div>
+    <div style="font-size: 20px; margin: 30px;"
+    class="italic text-slate-50">
         <h3>Teacher: {{ data['teacherName'] }}</h3>
-
+    </div>
+    <div class="text-slate-50" style=" margin: 30px;">
         <h4>Total Marks Obtained: {{ data['total'] }}/{{ data['maximumMarks'] }}</h4>
-        <div>
+    </div>
+        <div class="text-slate-50" style=" margin: 50px;">
 
             {% for section in data['questions'] %}
 
@@ -49,15 +69,16 @@
             {% endfor %}
 
         </div>
-        <div>
+        <div class="text-slate-50" style=" margin: 50px;">
             For Queries Related to Marks Received, send a feedback using the below box:
 
-            <form action="/student/feedback" method="post">
+            <form action="/student/feedback" method="post" style="margin-bottom: 20px;">
                 <input type="hidden" name="paperID" value="{{ data['paperID'] }}">
                 <input type="hidden" name="teacherID" value="{{ data['teacherID'] }}">
-                <input type="text" name="feedback">
+                <input type="text" name="feedback"><br>
                 <input type="submit">
             </form>
         </div>
+        
     </body>
 </html>

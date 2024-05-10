@@ -6,7 +6,10 @@
     </head>
 
     <body
-        style="background-image: url('/static/stud_login.jpg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
+    style="background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
         <center>
             <p style="margin-top: 70px;font-size: 50px;"
                 class="text-slate-50">
@@ -14,10 +17,11 @@
                     style="background-color: rgba(0, 0, 0, 70%); padding: 10px;">Student
                     Login</span>
             </p>
+            <img src = "../static/student_login_clip_art.jpeg" height="200px" width="200px" style="margin-top: 50px;">
         </center>
         <center>
             <div class="text-slate-50 bg-green-900 italic"
-                style="padding: 30px; width: 500px; margin: 50px;">
+                style="padding: 30px; width: 500px; margin: 50px; background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px;">
                 <form action="{{ url_for('student_login') }}" method="post">
                     Student ID: <input required type="text" placeholder="enter your ID"
                         name="student_id" class="bg-transparent" style="border-bottom: 2px solid white;"><br><br>

@@ -8,26 +8,34 @@ entered password and re-entered password should match, else give alert -->
         <link rel="stylesheet" href="/static/css/main.css">
     </head>
 
-    <body
-        style="background-image: url('/static/stud_reg.png'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
+    <body 
+    style="background: linear-gradient(-45deg, #52ee83, #e73ce7, #7323d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;">
         <center>
             <div class="text-slate-50"
-                style="font-size: 50px; margin-top: 60px;">Student
+                style="font-size: 50px; margin-top: 30px;">Student
                 Register</div>
+                <img src = "../static/student_register_icon.jpeg" height="200px" width="200px" style="margin-top: 50px;">
         </center>
+        <center>
         <div
-            style="margin-left: 700px; margin-top: 100px; font-size: 20px; width: 600px; padding-left: 30px; padding-top: 30px;height: 350px;"
-            class="italic text-slate-50 bg-green-900 rounded-lg">
+            style="margin-top: 50px; font-size: 20px; width: 600px; padding-left: 30px; padding-top: 30px;height: 350px;background-color: rgb(4, 51, 51); border: 3px solid #FFFFFF; border-radius: 15px;"
+            class="italic text-slate-50 ">
             <form action="{{ url_for('student_register') }}" method="post">
-                ID: <input required type="text" name="student_id" class="bg-transparent"
+                Student ID: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input required type="text" name="student_id" class="bg-transparent"
                     style="border-bottom: 2px solid white;"><br><br>
-                Name: <input required type="text" name="student_name"
+                Student Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <input required type="text" name="student_name"
                     class="bg-transparent"
                     style="border-bottom: 2px solid white;"><br><br>
-                Email: <input required type="text" name="student_email"
+                Student Email:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <input required type="text" name="student_email"
                     class="bg-transparent"
                     style="border-bottom: 2px solid white;"><br><br>
-                Password: <input required type="password" name="student_pwd"
+                Student Password:&nbsp; <input required type="password" name="student_pwd"
                     class="bg-transparent"
                     style="border-bottom: 2px solid white;"><br><br>
                 Re-enter Password: <input required type="password" class="bg-transparent"
@@ -35,6 +43,7 @@ entered password and re-entered password should match, else give alert -->
                 <input type="submit" style="border-bottom: 2px solid white;">
             </form>
         </div>
+    </center>
 
     </body>
 
