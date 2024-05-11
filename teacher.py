@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, session, redirect, url_for, request
 from functools import wraps
 from db import db
+from bson import ObjectId
 
 teacher = Blueprint('teacher', __name__)
 
@@ -145,6 +146,7 @@ def feedback():
     data = []
     
     for feedback in feedbacks:
+        feedbackID = feedback['_id']
         studentID = feedback['studentID']
         paperID = feedback['paperID']
         paper = db.question_papers.find_one({"questionPaperID": paperID})
@@ -152,7 +154,7 @@ def feedback():
         student = db.students.find_one({"studentID": studentID})
         studentName = student['studentName']
 
-        data.append({"studentID": studentID, "studentName": studentName, "paperID": paperID, "paperName": paperName, "feedback": feedback['feedback']})
+        data.append({"studentID": studentID, "studentName": studentName, "paperID": paperID, "paperName": paperName, "feedbackID": feedbackID, "feedback": feedback['feedback']})
 
     return render_template("teacher_feedback_page.html", data=data)
 
@@ -173,6 +175,11 @@ def feedback_single(paperID, studentID):
     total = scores['total']
     feedback = db.feedbacks.find_one({"teacherID": teacherID, "studentID": studentID, "paperID": paperID})['feedback']
 
-
     data = {"paperID": paperID, "paperName": paperName, "teacherID": teacherID, "studentID": studentID, "studentName": studentName, "feedback": feedback, "questions": questions, "studentAnswers": studentAnswers, "referenceAnswers": referenceAnswers, "marksDistribution": marksDistribution, "total": total, "maximumMarks": maximumMarks}
     return render_template("teacher_view_feedback.html", data=data)
+
+@teacher.route("/resolveFeedback/<feedbackID>")
+def resolve_feedback(feedbackID):
+    print(feedbackID)
+    db.feedbacks.find_one_and_delete({"_id": ObjectId(feedbackID)})
+    return redirect(url_for('teacher.feedback'))
