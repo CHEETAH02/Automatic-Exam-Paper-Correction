@@ -3,9 +3,8 @@ from numpy.linalg import norm
 from autocorrect import Speller
 from expression_trial import express_trialdef
 import tensorflow_hub as hub
-import requests
 
-embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 def evaluateMCQ(studentAnswer, referenceAnswer, marksWeight):
     total = []

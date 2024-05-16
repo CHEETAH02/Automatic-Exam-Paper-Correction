@@ -8,25 +8,40 @@
     </head>
 
     <body
-        style="background-image: url('/static/teacherviewtest.jpeg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
-        <div class="text-slate-50">Automatic Submission in: <span id="time">00:00:00</span> minutes!</div>
+        style="background-image: url('/static/bgteachview2.jpg'); background-repeat: repeat; background-attachment: fixed; background-size: cover;">
+        <!-- <div class="text-slate-50">Automatic Submission in: <span id="time">00:00:00</span> minutes!</div> -->
         {% for section, question_list in questions.items() %}
-        <div style="margin-bottom: 20px;">
-            <h3>{{ section }}</h3>
+        <div
+            style="margin-bottom: 20px; margin-left: 20px;color: rgb(16, 14, 14);">
+            <h3
+                style="font-size: 25px ; font-weight:500; margin-bottom: 15px;">{{
+                section }}</h3>
             {% for question in question_list %}
             {% set counter = loop.index - 1 %}
             <div style="margin-bottom: 20px;">
                 {% if section != 'MCQs' %}
                 {{ loop.index }}. {{ question }}
-                <input type="text" value="{{ answers[section][loop.index - 1] }}" name="{{ section|lower }}_{{ loop.index }}">
+                {% if section == 'brief' %}
+                <textarea rows="4" cols="200"
+                    name="{{ section|lower }}_{{ loop.index }}"> {{ answers[section][loop.index - 1] }}</textarea>
+                {% else %}
+                <input type="text"
+                    value="{{ answers[section][loop.index - 1] }}"
+                    name="{{ section|lower }}_{{ loop.index }}">
+                {% endif %}
                 {% else %}
                 {{ loop.index }}. {{ question['question'] }}
                 <fieldset id="{{ section|lower }}_{{ loop.index }}">
                     {% for option in question['options'] %}
-                    {% if question['options'].index(option) + 1 == answers[section][counter] %}
-                    <input type="radio" value="{{ loop.index }}" name="{{ section|lower }}_{{ loop.index }}" checked>{{ option }}
+                    {% if question['options'].index(option) + 1 ==
+                    answers[section][counter] %}
+                    <input type="radio" value="{{ loop.index }}"
+                        name="{{ section|lower }}_{{ loop.index }}" checked>{{
+                    option }}
                     {% else %}
-                    <input type="radio" value="{{ loop.index }}" name="{{ section|lower }}_{{ loop.index }}">{{ option }}
+                    <input type="radio" value="{{ loop.index }}"
+                        name="{{ section|lower }}_{{ loop.index }}" disabled>{{
+                    option }}
                     {% endif %}
                     {% endfor %}
                 </fieldset>
@@ -34,6 +49,8 @@
             </div>
             {% endfor %}
         </div>
+        <hr
+            style="height:2px;border-width:0;color:rgb(39, 38, 38);background-color:rgb(33, 32, 32); margin-bottom: 15px;;">
         {% endfor %}
     </body>
 

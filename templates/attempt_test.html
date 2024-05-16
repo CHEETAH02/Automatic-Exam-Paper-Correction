@@ -1,66 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attempt Test: {{ paperName }}</title>
-    <link rel="stylesheet" href="/static/css/main.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Attempt Test: {{ paperName }}</title>
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
 
-<body
-    style="width: 100%;
+    <body
+        style="width: 100%;
     height: 300%;
     position: absolute;
     background: linear-gradient(to bottom, #cd307f 0%,#e33090 100%);
     background-repeat: repeat; background-attachment: fixed; background-size: cover;">
-    <div class="text-slate-50">Automatic Submission in: <span id="time">00:00:00</span> minutes!</div>
-    <center><img src = "../static/attempt_test_icon.jpg" height="200px" width="500px" style="margin-top: 50px;"></center>
-    <form action="/paper/attemptTest/{{ paperID }}" enctype="multipart/form-data" method="post">
-    {% for section, question_list in questions.items() %}
+        <div class="text-slate-50">Automatic Submission in: <span
+                id="time">00:00:00</span> minutes!</div>
+        <center><img src="/static/attempt_test_icon.jpg" height="200px"
+                width="500px" style="margin-top: 50px;"></center>
+        <form action="/paper/attemptTest/{{ paperID }}"
+            enctype="multipart/form-data" method="post">
+            {% for section, question_list in questions.items() %}
 
-        <div style="margin-bottom: 20px;" >
-            <h3>{{ section }}</h3>
+            <div style="margin-bottom: 20px;margin-left: 20px;">
+                <h3>{{ section }}</h3>
 
-            {% for question in question_list %}
+                {% for question in question_list %}
                 {% set inner_loop = loop %}
 
-                    <div style="margin-bottom: 20px;color: #f0f1e8;"class="text-slate-50">
+                <div style="margin-bottom: 20px;color: #f0f1e8;"
+                    class="text-slate-50">
 
-                        {% if section == 'MCQs' %}
-                        {{ inner_loop.index }}. {{ question['question'] }}
+                    {% if section == 'MCQs' %}
+                    {{ inner_loop.index }}. {{ question['question'] }}
 
-                        <fieldset id="{{ section|lower }}_{{ inner_loop.index }}">
-                            {% for option in question['options'] %}
-                            <input type="radio" value="{{ loop.index }}" name="{{ section|lower }}_{{ inner_loop.index }}">{{ option }}
-                            {% endfor %}
-                        </fieldset>
+                    <fieldset id="{{ section|lower }}_{{ inner_loop.index }}">
+                        {% for option in question['options'] %}
+                        <input type="radio" value="{{ loop.index }}"
+                            name="{{ section|lower }}_{{ inner_loop.index }}">{{
+                        option }}
+                        {% endfor %}
+                    </fieldset>
 
-                        {% else %}
-                        {{ inner_loop.index }}. {{ question }}
-                        {% if section == 'brief' %}
+                    {% else %}
+                    {{ inner_loop.index }}. {{ question }}
+                    {% if section == 'brief' %}
 
-                        <input type="file" accept="image/jpeg" value="" name="{{ section|lower }}_{{ inner_loop.index }}">
+                    <input type="file" accept="image/jpeg" value
+                        name="{{ section|lower }}_{{ inner_loop.index }}">
 
-                        {% else %}
+                    {% else %}
 
-                        <input type="text" value="" name="{{ section|lower }}_{{ inner_loop.index }}">
-                        
-                        {% endif %}
-                        {% endif %}
+                    <input type="text" style="color: black;" value
+                        name="{{ section|lower }}_{{ inner_loop.index }}">
 
-                    </div>
+                    {% endif %}
+                    {% endif %}
+
+                </div>
+
+                {% endfor %}
+            </div>
 
             {% endfor %}
-        </div>
+            <center><input type="submit" class="text-green-500 italic"
+                    style="font-size: 30px; margin-bottom: 50px; cursor: pointer;"></center>
+        </form>
+    </body>
 
-    {% endfor %}
-    <center><input type="submit" class="text-green-500 italic"
-        style="font-size: 30px; margin-bottom: 50px; cursor: pointer;"></center>
-    </form>
-</body>
-
-<script>
+    <script>
         startTimer = (duration, display) => {
             let timer = duration;
             let hours, minutes, seconds;

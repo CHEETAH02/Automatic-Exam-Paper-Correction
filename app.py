@@ -17,7 +17,7 @@ app.register_blueprint(paper, url_prefix="/paper")
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'chetansathish02@gmail.com'
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
@@ -122,7 +122,7 @@ def create_mail():
 
     msg = Message(f"Paper {paperName} ({paperID}) has been Corrected",
                   sender='chetansathish02@gmail.com', recipients=studentList)
-    msg.body = f"The Paper {paperName} has been corrected. You may check your score (http://127.0.0.1:5000/student/viewScore).\n\nThis mail is automated. Replies to this mail may not be checked."
+    msg.body = f"The Paper {paperName} has been corrected. You may check your score (http://127.0.0.1:5000/student/viewScores).\n\nThis mail is automated. Replies to this mail may not be checked."
     mail.send(msg)
 
     return render_template("teacher_test_corrected.html")

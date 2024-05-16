@@ -72,11 +72,11 @@
         <div class="text-slate-50" style=" margin: 50px;">
             For Queries Related to Marks Received, send a feedback using the below box:
 
-            <form action="/student/feedback" method="post" style="margin-bottom: 20px;">
+            <form action="/student/feedback" method="post" style="margin-bottom: 20px; color: black;">
                 <input type="hidden" name="paperID" value="{{ data['paperID'] }}">
                 <input type="hidden" name="teacherID" value="{{ data['teacherID'] }}">
-                <input type="text" name="feedback"><br>
-                <input type="submit">
+                <input type="text" name="feedback" style="font-family: 'Courier New', Courier, monospace;"><br>
+                <input type="submit" style="color: #d4ede2; font-size: 20px; background-color: #188656;cursor: pointer;">
             </form>
         </div>
         

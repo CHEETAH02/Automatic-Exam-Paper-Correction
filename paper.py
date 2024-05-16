@@ -60,14 +60,17 @@ def attempt_test(paperID):
         fillBlanksAnswers = []
         equationsAnswers = []
 
-        for i in range(len(questionPaper['questions']['MCQs'])):
-            MCQAnswers.append(int(data[f'mcqs_{i + 1}']))
+        if 'MCQs' in questionPaper['questions']:
+            for i in range(len(questionPaper['questions']['MCQs'])):
+                MCQAnswers.append(int(data[f'mcqs_{i + 1}']))
 
-        for i in range(len(questionPaper['questions']['fillBlanks'])):
-            fillBlanksAnswers.append(data[f'fillblanks_{i + 1}'])
+        if 'fillBlanks' in questionPaper['questions']:
+            for i in range(len(questionPaper['questions']['fillBlanks'])):
+                fillBlanksAnswers.append(data[f'fillblanks_{i + 1}'])
 
-        for i in range(len(questionPaper['questions']['equations'])):
-            equationsAnswers.append(data[f'equations_{i + 1}'])
+        if 'equations' in questionPaper['questions']:
+            for i in range(len(questionPaper['questions']['equations'])):
+                equationsAnswers.append(data[f'equations_{i + 1}'])
 
         studentAnswer = {
             "studentID": studentID,
@@ -109,6 +112,11 @@ def evaluate_test(paperID):
     marksWeight = questionPaper["marks"]
     studentList = []
 
+    MCQTotal = 0
+    fillBlanksTotal = 0
+    equationsTotal = 0
+    briefTotal = 0
+
     for paper in answerPaper:
         studentID = paper["studentID"]
         studentEmail = db.students.find_one({"studentID": studentID}, {
@@ -116,21 +124,21 @@ def evaluate_test(paperID):
         studentList.append(studentEmail['studentEmail'])
         studentAnswer = paper["answers"]
 
-        if referenceAnswer["MCQs"]:
+        if "MCQs" in referenceAnswer:
             MCQTotal = evaluateMCQ(
                 studentAnswer["MCQs"],
                 referenceAnswer["MCQs"],
                 marksWeight["MCQs"],
             )
 
-        if referenceAnswer["fillBlanks"]:
+        if "fillBlanks" in referenceAnswer:
             fillBlanksTotal = evaluateFillBlanks(
                 studentAnswer["fillBlanks"],
                 referenceAnswer["fillBlanks"],
                 marksWeight["fillBlanks"],
             )
 
-        if referenceAnswer["equations"]:
+        if "equations" in referenceAnswer:
             equationsTotal = evaluateEquations(
                 studentAnswer["equations"],
                 referenceAnswer["equations"],
@@ -138,7 +146,7 @@ def evaluate_test(paperID):
                 questionPaper["questions"]["equations"]
             )
 
-        if referenceAnswer["brief"]:
+        if "brief" in referenceAnswer:
             briefTotal = evaluateBrief(
                 studentAnswer["brief"],
                 referenceAnswer["brief"],
